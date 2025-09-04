@@ -1,0 +1,22 @@
+<main>
+    <hgroup>
+        <h1>Inscription</h1>
+        <p>Créez votre compte</p>
+    </hgroup>
+    <form [formGroup]="subscribeform" (ngSubmit)="onSubmit()">
+
+        <label for="email">Adresse mail</label>
+        <input type="email" id="email" formControlName="email">
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" formControlName="password">
+
+        <label for="Confirmpassword">Confirmez votre mot de passe</label>
+        <input type="password" id="Confirmpassword" formControlName="confirmPassword">
+
+        <button type="submit" [disabled]="subscribeform.invalid">Connexion</button>
+
+    </form>
+    
+
+</main>

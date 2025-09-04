@@ -1,0 +1,50 @@
+main {
+    margin: auto;
+    width: 50%;
+}
+
+hgroup {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 1rem 0;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: .9em;
+
+}
+
+input {
+    line-height: 2rem;
+    margin: .4rem 0;
+}
+
+button {
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    color: white;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.subscribeCTA {
+    margin-top:.5rem;
+    font-size: .9em;
+}
+
+.subscribeCTA a{
+    text-decoration: underline;
+    color:blueviolet
+}

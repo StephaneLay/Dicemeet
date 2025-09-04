@@ -1,11 +1,16 @@
 <header>
-        <div class="container header-container">
+    <div class="container header-container">
+        <a routerLink="/">
             <img src="assets/Logo.png" alt="">
-            <nav>
-                <a routerLink="/parties" class="primary">Rejoindre une partie</a>
-                <a href="#" class="secondary">Organiser une partie</a>
-                <a href="#">Contact</a>
+        </a>
+
+        <nav>
+            <a routerLink="/parties" class="primary">Rejoindre une partie</a>
+            <a routerLink="/parties/create" class="secondary">Organiser une partie</a>
+            <a routerLink="#">Contact</a>
+            <a routerLink="/login">
                 <img src="assets/user.png" alt="">
-            </nav>
-        </div>
-    </header>
+            </a>
+        </nav>
+    </div>
+</header>

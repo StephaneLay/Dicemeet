@@ -21,41 +21,7 @@
     padding: 2rem 0;
 }
 
-header {
-    background-color: #2c27279f;
-    color: #fff;
-}
 
-header img {
-    width: 200px;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 70%;
-}
-
-nav img {
-    height: 3rem;
-    width: 3rem;
-}
-
-nav a {
-    color: #fff;
-    margin-left: 1rem;
-    text-decoration: none;
-    font-weight: bold;
-}
 
 .hero {
     background-color: #e0e0e0;
