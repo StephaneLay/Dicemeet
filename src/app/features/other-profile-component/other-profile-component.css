@@ -1,0 +1,52 @@
+main {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 80%;
+}
+
+.top-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+}
+
+img {
+    display: inline-block;
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    border: 2px solid var(--secondary-color);
+}
+
+h1 {
+    font-size: 2em;
+}
+
+.traits-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.trait {
+    padding: .5rem;
+    border-radius: 20px;
+}
+
+.t1 {
+    background-color: brown;
+}
+
+.t2 {
+    background-color: greenyellow;
+}
+
+.t3 {
+    background-color: teal;
+}

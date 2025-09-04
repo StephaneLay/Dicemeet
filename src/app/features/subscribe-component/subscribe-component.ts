@@ -10,6 +10,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class SubscribeComponent {
   subscribeform = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
+    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
   },
@@ -22,6 +23,9 @@ export class SubscribeComponent {
     if (this.subscribeform.get('password')?.value !== this.subscribeform.get('confirmPassword')?.value) {
         return console.log('les mots de passe ne correspondent pas');
     }
+
+    //VERIFICATION SI NOM EXISTANT
+    
     return console.log(this.subscribeform.value);
   }
 }
