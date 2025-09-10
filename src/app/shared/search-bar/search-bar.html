@@ -1,0 +1,24 @@
+<div class="search-container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+    placeholder="Rechercher un événement..."
+    class="search-input"
+  />
+
+  <ul class="suggestions" *ngIf="suggestions.length">
+    <li *ngFor="let item of suggestions" (click)="selectItem(item)">
+      {{ item.name }}
+      <span class="label">{{ item.type }}</span>
+    </li>
+  </ul>
+
+  <div class="selected-tags">
+    <span *ngFor="let filter of selectedFilters" class="tag">
+      {{ filter.name }}
+      <span class="type">{{ filter.type }}</span>
+      <button (click)="removeFilter(filter)">×</button>
+    </span>
+  </div>
+</div>

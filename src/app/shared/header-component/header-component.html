@@ -4,13 +4,29 @@
             <img src="assets/Logo.png" alt="">
         </a>
 
+        @if (!authService.isAuthenticated()) {
         <nav>
+            <a routerLink="/login">Connexion</a>
+            <a routerLink="/subscribe">Inscription</a>
+            <a routerLink="/parties">Événements</a>
+        </nav>
+        }
+        @else {
+        <nav>
+            <a routerLink="/parties">Événements</a>
+            <a routerLink="/search">Recherche</a>
+            <a routerLink="/messages">Messagerie</a>
+            <a routerLink="/profile/me">Mon profil</a>
+            <button (click)="logout()" class="ml-2 text-red-400">Déconnexion</button>
+        </nav>
+        }
+        <!-- <nav>
             <a routerLink="/parties" class="primary">Rejoindre une partie</a>
             <a routerLink="/parties/create" class="secondary">Organiser une partie</a>
-            <a routerLink="#">Contact</a>
             <a routerLink="/login">
                 <img src="assets/user.png" alt="">
+                Connexion
             </a>
-        </nav>
+        </nav> -->
     </div>
 </header>

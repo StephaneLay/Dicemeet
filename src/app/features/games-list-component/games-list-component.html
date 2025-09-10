@@ -1,52 +1,16 @@
+<!-- On pourrait ajouter des filtres en fonction de nos resultats de recherche -->
 
+<h1>Recherchez un evenement</h1>
 
- <main class="organiser">
-    <section class="intro">
-      <h1>Organiser une partie</h1>
-      <p>Pourquoi ne pas organiser votre propre partie ?</p>
-      <a class="button" href="index.html">Retour à l’accueil</a>
-    </section>
+<app-search-bar (filtersChanged)="onFiltersChanged($event)"></app-search-bar>
 
-    <section class="party-cards">
-      <div class="card">
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h2>Terraforming Mars</h2>
-        <p class="lieu">69004</p>
-        <p class="players">1/5</p>
-        <button>Je m’inscris</button>
-      </div>
-      <div class="card">
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h2>Terraforming Mars</h2>
-        <p class="lieu">69004</p>
-        <p class="players">1/5</p>
-        <button>Je m’inscris</button>
-      </div>
-      <div class="card">
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h2>Terraforming Mars</h2>
-        <p class="lieu">69004</p>
-        <p class="players">1/5</p>
-        <button>Je m’inscris</button>
-      </div>
-    </section>
+<!-- @for (filter of filteredEvents; track $index) {
+  <div>
+    {{ filter.name }}
+    <button (click)="deleteFilter(filter.id)">Supprimer</button>
+  </div>
+} -->
 
-    <aside class="filters">
-      <h3>Filtres</h3>
-      <ul>
-        <li>Note</li>
-        <li>Joueurs</li>
-        <li>Lieux</li>
-        <li>Jeux</li>
-      </ul>
-      <ul class="tags">
-        <li>Team vs Team</li>
-        <li>Duel</li>
-        <li>Coop</li>
-        <li>Stratégie</li>
-        <li>Jeux de plateaux</li>
-        <li>Jeux de cartes</li>
-        <li>Jeux de dés</li>
-      </ul>
-    </aside>
-  </main>
+@for (meetup of filteredEvents; track $index) {
+  <app-meetup-card [meetup]="meetup"></app-meetup-card>
+}

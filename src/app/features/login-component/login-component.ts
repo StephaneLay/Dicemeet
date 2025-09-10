@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../core/services/auth/auth-service';
 
 @Component({
@@ -16,6 +16,7 @@ export class LoginComponent {
   })
 
   authService = inject(AuthService);
+  router = inject(Router);
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -26,10 +27,10 @@ export class LoginComponent {
         }).subscribe({
           next: (response) => {
             this.authService.saveToken(response.token);
-            console.log('Login successful');
           }
         });
       }
+      this.router.navigate(['/']);
     }
    }
 }

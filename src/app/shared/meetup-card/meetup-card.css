@@ -1,0 +1,33 @@
+.meetup-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.info {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

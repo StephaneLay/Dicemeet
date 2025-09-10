@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./shared/header-component/header-component";
 import { FooterComponent } from "./shared/footer-component/footer-component";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { jwtInterceptor } from './core/services/auth/auth-interceptor';
+import { jwtInterceptor } from './core/services/auth/interceptor/auth-interceptor';
 
 @Component({
   selector: 'app-root',
