@@ -7,18 +7,28 @@
     class="search-input"
   />
 
-  <ul class="suggestions" *ngIf="suggestions.length">
-    <li *ngFor="let item of suggestions" (click)="selectItem(item)">
-      {{ item.name }}
-      <span class="label">{{ item.type }}</span>
-    </li>
-  </ul>
+  @if (suggestions$ | async ; as suggestions) {
+    @if (suggestions.length > 0) {
+      <ul class="suggestions">
+        @for (item of suggestions; track item.name) {
+          <li (click)="selectItem(item)">
+            {{ item.name || item.title }}
+            <span class="label">{{ item.type }}</span>
+          </li>
+        }
+      </ul>
+    }
+  }
 
-  <div class="selected-tags">
-    <span *ngFor="let filter of selectedFilters" class="tag">
-      {{ filter.name }}
-      <span class="type">{{ filter.type }}</span>
-      <button (click)="removeFilter(filter)">×</button>
-    </span>
-  </div>
+  @if (selectedFilters.length > 0) {
+    <div class="selected-tags">
+      @for (filter of selectedFilters; track filter.id) {
+        <span class="tag">
+          {{ filter.name }}
+          <span class="type">{{ filter.type }}</span>
+          <button (click)="removeFilter(filter)">×</button>
+        </span>
+      }
+    </div>
+  }
 </div>

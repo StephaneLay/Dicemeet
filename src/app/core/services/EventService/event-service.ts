@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,8 @@ export class EventService {
   }
 
   getFilteredEvents(filters: any[]): Observable<any[]> {
-    const params = filters.map(f => `${f.type}:${f.id}`).join(',');
+    const params = filters.map(f => `${f.type}:${f.name}`).join(',');
+
     return this.http.get<any[]>(`${this.api_url}/search?filters=${params}`);
   }
 

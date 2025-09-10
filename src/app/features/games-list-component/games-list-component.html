@@ -1,16 +1,28 @@
-<!-- On pourrait ajouter des filtres en fonction de nos resultats de recherche -->
-
-<h1>Recherchez un evenement</h1>
+<h1>Recherchez un événement</h1>
 
 <app-search-bar (filtersChanged)="onFiltersChanged($event)"></app-search-bar>
 
-<!-- @for (filter of filteredEvents; track $index) {
-  <div>
-    {{ filter.name }}
-    <button (click)="deleteFilter(filter.id)">Supprimer</button>
+@if (searchBarFilters.length > 0) {
+  <div class="active-filters">
+    @for (filter of searchBarFilters; track filter.name) {
+      <span class="tag">
+        {{ filter.name }}
+        <span class="type">{{ filter.type }}</span>
+        <button (click)="deleteFilter(filter)">×</button>
+      </span>
+    }
   </div>
-} -->
+}
 
-@for (meetup of filteredEvents; track $index) {
-  <app-meetup-card [meetup]="meetup"></app-meetup-card>
+@for (meetup of filteredEvents; track meetup.id) {
+  <app-meetup-card [meetup]="meetup">
+  </app-meetup-card>
+}
+
+@if (totalEvents > pageSize) {
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{ currentPage }}</span>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * pageSize >= totalEvents">Suivant</button>
+  </div>
 }
