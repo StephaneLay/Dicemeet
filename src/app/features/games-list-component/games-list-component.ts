@@ -20,6 +20,7 @@ export class GamesListComponent {
 
   // On a des problemes pour dire que la liste est vide , et de toute facon on doit ameliorer la recherche :
   // Certains tags sont contradictoires: bars pas dans la bonne ville , deux villes opposées etc
+  // ===> DETERMINER LE COMPORTEMENT QU'ON VEUT APPLIQUER
 
   eventService = inject(EventService);
 
@@ -35,7 +36,6 @@ export class GamesListComponent {
 
   meetups$!: Observable<Meetup[]>
   meetupNumber!: number ;
-  isEmpty:boolean = false;
 
   filters: Filter[] = [];
 

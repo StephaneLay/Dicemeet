@@ -15,15 +15,17 @@
 </div>
 }
 
-@if (!isEmpty) {
-<div class="meetup-container">
-  @for (meetup of meetups$ | async; track meetup.id ) {
-  <app-meetup-card [meetup]="meetup">
-  </app-meetup-card>
+@if (meetups$ | async; as meetups) {
+  @if (meetups.length === 0) {
+    <h2>Aucun événement ne correspond à votre recherche</h2>
+  } @else {
+    <div class="meetup-container">
+      @for (meetup of meetups; track meetup.id) {
+        <app-meetup-card [meetup]="meetup"></app-meetup-card>
+      }
+    </div>
   }
-</div>
-}@else {
-  <h2>Aucun evenement ne correspond a votre recherche</h2>
+
 }
 
 
