@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Filter } from '../../../shared/models/filter-model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SearchService {
 
   http = inject(HttpClient);
 
-  public search(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?search=${query}`);
+  public search(query: string): Observable<Filter[]> {
+    return this.http.get<Filter[]>(`${this.apiUrl}?search=${query}`);
   }
 }

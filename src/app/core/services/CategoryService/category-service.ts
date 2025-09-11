@@ -10,6 +10,6 @@ export class CategoryService {
     http = inject(HttpClient);
 
     getAllCategories() {
-        return this.http.get<any[]>(this.apiUrl,{headers: new HttpHeaders({ 'no-auth': 'true' })});
+        return this.http.get<any[]>(this.apiUrl);
     }
 }
