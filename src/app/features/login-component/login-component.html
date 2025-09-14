@@ -1,19 +1,19 @@
 <main>
-    <hgroup>
-        <h1>Connexion</h1>
-        <p>Rentrez vos identifiants</p>
-    </hgroup>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
         <label for="email">Adresse mail</label>
         <input type="email" id="email" formControlName="email">
 
         <label for="password">Mot de passe</label>
         <input type="password" id="password" formControlName="password">
 
+        @if (loginForm.errors?.['invalidLogin']) {
+        <div>
+            <small>Email ou mot de passe incorrect.</small>
+        </div>
+        }
+
         <button type="submit" [disabled]="loginForm.invalid">Connexion</button>
-
     </form>
-    <p class="subscribeCTA">Vous n'avez pas encore de compte ? <a routerLink="/subscribe">Créez en un</a></p>
 
+    <p class="subscribeCTA">Vous n'avez pas encore de compte ? <a routerLink="/subscribe">Créez en un</a></p>
 </main>

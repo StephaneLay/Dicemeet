@@ -19,18 +19,22 @@ export class LoginComponent {
   router = inject(Router);
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      if (this.loginForm.value.email && this.loginForm.value.password) {
-        this.authService.login({
-          email: this.loginForm.value.email,
-          password: this.loginForm.value.password
-        }).subscribe({
-          next: (response) => {
-            this.authService.saveToken(response.token);
-          }
-        });
+  if (this.loginForm.valid) {
+    this.authService.login({
+      email: this.loginForm.value.email!,
+      password: this.loginForm.value.password!
+    }).subscribe({
+      next: (response) => {
+        this.authService.saveToken(response.token);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          this.loginForm.setErrors({ invalidLogin: true });
+        }
       }
-      this.router.navigate(['/']);
-    }
-   }
+    });
+  }
+}
+
 }

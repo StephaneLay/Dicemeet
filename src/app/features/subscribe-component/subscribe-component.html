@@ -3,23 +3,53 @@
         <h1>Inscription</h1>
         <p>Créez votre compte</p>
     </hgroup>
+
     <form [formGroup]="subscribeform" (ngSubmit)="onSubmit()">
 
+        <!-- Email -->
         <label for="email">Adresse mail</label>
         <input type="email" id="email" formControlName="email">
+        @if (subscribeform.get('email')?.hasError('required') && subscribeform.get('email')?.touched) {
+        <small>Email requis.</small>
+        }
+        @if (subscribeform.get('email')?.hasError('email') && subscribeform.get('email')?.touched) {
+        <small>Format invalide.</small>
+        }
+        @if (subscribeform.get('email')?.hasError('emailTaken')) {
+        <small>Cet email est déjà utilisé.</small>
+        }
 
-        <label for="name">Nom utilisateur(visible par tous)</label>
+        <!-- Nom utilisateur -->
+        <label for="name">Nom utilisateur (visible par tous)</label>
         <input type="text" id="name" formControlName="name">
+        @if (subscribeform.get('name')?.hasError('required') && subscribeform.get('name')?.touched) {
+        <small>Nom requis.</small>
+        }
+        @if (subscribeform.get('name')?.hasError('minlength') && subscribeform.get('name')?.touched) {
+        <small>Minimum 4 caractères.</small>
+        }
+        @if (subscribeform.get('name')?.hasError('nameTaken')) {
+        <small>Ce nom est déjà pris.</small>
+        }
 
+        <!-- Mot de passe -->
         <label for="password">Mot de passe</label>
         <input type="password" id="password" formControlName="password">
+        @if (subscribeform.get('password')?.hasError('required') && subscribeform.get('password')?.touched) {
+        <small>Mot de passe requis.</small>
+        }
+        @if (subscribeform.get('password')?.hasError('minlength') && subscribeform.get('password')?.touched) {
+        <small>Minimum 6 caractères.</small>
+        }
 
+        <!-- Confirmation mot de passe -->
         <label for="Confirmpassword">Confirmez votre mot de passe</label>
         <input type="password" id="Confirmpassword" formControlName="confirmPassword">
+        @if (subscribeform.hasError('passwordMismatch') && subscribeform.get('confirmPassword')?.touched) {
+        <small>Les mots de passe ne correspondent pas.</small>
+        }
 
-        <button type="submit" [disabled]="subscribeform.invalid">Connexion</button>
-
+        <!-- Bouton -->
+        <button type="submit" [disabled]="subscribeform.invalid">Créer le compte</button>
     </form>
-    
-
 </main>
