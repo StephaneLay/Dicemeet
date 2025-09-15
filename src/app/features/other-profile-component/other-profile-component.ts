@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UserService } from '../../core/services/UserService/user-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
@@ -13,8 +13,22 @@ export class OtherProfileComponent {
 
   userService = inject(UserService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
   userId = this.route.snapshot.paramMap.get('id');
   user$ = this.userService.getUserById(Number(this.userId));
 
+
+
+  ngOnInit(): void {
+    
+    this.userService.getCurrentUserId().subscribe({
+      next: (currentUserId) => {
+        console.log(currentUserId, this.userId);
+        if (currentUserId == Number(this.userId)) {
+          this.router.navigate(['/profile']);
+        }
+      }
+    });
+  }
 }
