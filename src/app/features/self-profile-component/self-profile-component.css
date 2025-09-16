@@ -50,3 +50,9 @@ h1 {
 .t3 {
     background-color: teal;
 }
+
+button{
+    padding: .5rem;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}

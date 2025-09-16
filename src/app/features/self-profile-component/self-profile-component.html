@@ -1,50 +1,60 @@
-
 <main>
-  <section class="top-section">
-    <!-- Image de profil -->
-    <div class="img-container">
-      <img [src]="(user$ | async)?.imgUrl" alt="Profile Image">
-      <button class="edit-btn" (click)="editField('imgUrl')">✏️</button>
-      <input *ngIf="editing.imgUrl" type="file" (change)="onFileSelected($event)">
+  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+
+    <!-- Image -->
+    <section class="top-section">
+      <div class="edit-zone">
+        <img [src]="displayImg" alt="profilePic" />
+        <div>
+          <label for="file-input">Changer d'image</label>
+          <input id="file-input" type="file" (change)="onFileSelected($event)" />
+        </div>
+      </div>
+
+      <h1>{{ profileForm.get('name')?.value }}</h1>
+
+      <!-- Traits -->
+      <div class="traits-container">
+        @for( slot of [0,1,2]; track $index){
+        @if (profileForm.get('traits')?.value[$index]) {
+        <div>
+          <p>{{ profileForm.get('traits')?.value[$index].name }}</p>
+          <button type="button" (click)="modifyTraitSlot($index)">Modifier</button>
+        </div>
+        }@else {
+        <button type="button" (click)="displayTraits()">Ajouter un trait</button>
+        }
+        }
+      </div>
+      @if (selectTraits) {
+      <div class="all-traits">
+        @for (trait of traits$ | async; track $index) {
+          <div>
+            <button type="button" (click)="addTrait(trait)">{{ trait.name }}</button>
+          </div>
+        }
+      </div>
+    }
+    </section>
+
+    <!-- Bio -->
+    <div class="bio-section">
+      <textarea formControlName="bio"></textarea>
     </div>
 
-    <!-- Nom -->
-    <h1>{{ (user$ | async)?.name }}</h1>
-
-    <!-- Traits -->
-    <div class="traits-container">
-      <p *ngFor="let trait of (user$ | async)?.traits; let i = index">
-        {{ trait }}
-        <button class="edit-btn" (click)="editTrait(i)">✏️</button>
-      </p>
-      <div *ngIf="editing.traits">
-        <input [(ngModel)]="newTrait" placeholder="Nouveau trait">
-        <button (click)="addTrait()">Ajouter</button>
+    <!-- Infos -->
+    <div id="infos">
+      <div class="info">
+        <h2>Location</h2>
+        <input type="text" formControlName="city" />
+      </div>
+      <div class="info">
+        <h2>Utilisateur depuis</h2>
+        <p>{{ user?.createdAt | date }}</p>
       </div>
     </div>
-  </section>
 
-  <!-- Bio -->
-  <div class="bio-section">
-    <p *ngIf="!editing.bio">{{ (user$ | async)?.bio }}</p>
-    <textarea *ngIf="editing.bio" [(ngModel)]="edited.bio"></textarea>
-    <button class="edit-btn" (click)="toggleEdit('bio')">✏️</button>
-  </div>
-
-  <!-- Infos -->
-  <div id="infos">
-    <div class="info">
-      <h2>Location</h2>
-      <p *ngIf="!editing.city">{{ (user$ | async)?.city }}</p>
-      <input *ngIf="editing.city" [(ngModel)]="edited.city">
-      <button class="edit-btn" (click)="toggleEdit('city')">✏️</button>
-    </div>
-
-    <div class="info">
-      <h2>Utilisateur depuis</h2>
-      <p>{{ (user$ | async)?.createdAt | date }}</p>
-    </div>
-  </div>
-
-  <button *ngIf="hasEdits()" (click)="saveProfile()">Enregistrer</button>
+    <!-- Bouton Submit -->
+    <button type="submit" [disabled]="profileForm.pristine">Enregistrer</button>
+  </form>
 </main>

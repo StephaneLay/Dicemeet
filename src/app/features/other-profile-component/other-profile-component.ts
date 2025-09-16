@@ -17,15 +17,15 @@ export class OtherProfileComponent {
 
   userId = this.route.snapshot.paramMap.get('id');
   user$ = this.userService.getUserById(Number(this.userId));
+  currentUser$ = this.userService.getCurrentUser();
 
 
+  onInit(): void {
 
-  ngOnInit(): void {
-    
-    this.userService.getCurrentUserId().subscribe({
-      next: (currentUserId) => {
-        console.log(currentUserId, this.userId);
-        if (currentUserId == Number(this.userId)) {
+    this.userService.getCurrentUser().subscribe({
+      next: (currentUser) => {
+        console.log(currentUser.id, this.userId);
+        if (currentUser.id == Number(this.userId)) {
           this.router.navigate(['/profile']);
         }
       }

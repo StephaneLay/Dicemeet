@@ -7,7 +7,7 @@ import { User } from '../../../shared/models/user-model';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8000/api/private';
+  readonly  apiUrl = 'http://localhost:8000/api/private';
 
   http = inject(HttpClient);
 
@@ -15,9 +15,24 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`);
   }
 
-  getCurrentUserId(): Observable<number> {
-  return this.http.get<{ id: number }>(`${this.apiUrl}/current-user-id`).pipe(
-    map(response => response.id)
-  );
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/me`);
+  }
+
+  updateUser(data: Partial<User> | FormData) {
+  if (data instanceof FormData) {
+    // multipart/form-data pour l'image
+    return this.http.patch<User>(
+      `${this.apiUrl}/users/me`,
+      data
+    );
+  } else {
+    // JSON pour le reste
+    return this.http.patch<User>(
+      `${this.apiUrl}/users/me`,
+      data,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 }
 }
