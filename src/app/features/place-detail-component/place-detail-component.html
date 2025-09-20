@@ -1,0 +1,7 @@
+@if (place$ | async ; as place) {
+    <h1>{{place.name}}</h1>
+    <img src="{{ place.imgUrl }}" alt="game image">
+    <p>Capacité : {{place.capacity}}</p>
+    <p>Adresse : {{place.location}}</p>
+}
+

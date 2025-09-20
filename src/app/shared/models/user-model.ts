@@ -1,3 +1,6 @@
+import { Game } from "./games-model";
+import { Place } from "./places-model";
+import { Trait } from "./traits-model";
 
 export interface User{
     id: number;
@@ -7,5 +10,7 @@ export interface User{
     city?: string;
     imgUrl?: string;
     bio?: string;
-    traits?: string[];
+    traits?: Trait[];
+    favoritesGames?: Game[];
+    favoritesPlaces?: Place[];
 }

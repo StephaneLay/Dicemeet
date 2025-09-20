@@ -1,60 +1,71 @@
-<main>
-  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+<form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
 
-    <!-- Image -->
-    <section class="top-section">
-      <div class="edit-zone">
-        <img [src]="displayImg" alt="profilePic" />
-        <div>
-          <label for="file-input">Changer d'image</label>
-          <input id="file-input" type="file" (change)="onFileSelected($event)" />
-        </div>
+  <!-- Image -->
+  <section class="top-section">
+    <div class="edit-zone">
+      <img [src]="displayImg" alt="profilePic" />
+      <div>
+        <label for="file-input">Changer d'image</label>
+        <input id="file-input" type="file" (change)="onFileSelected($event)" />
       </div>
+    </div>
 
-      <h1>{{ profileForm.get('name')?.value }}</h1>
+    <h1>{{ profileForm.get('name')?.value }}</h1>
 
-      <!-- Traits -->
-      <div class="traits-container">
-        @for( slot of [0,1,2]; track $index){
-        @if (profileForm.get('traits')?.value[$index]) {
-        <div>
-          <p>{{ profileForm.get('traits')?.value[$index].name }}</p>
-          <button type="button" (click)="modifyTraitSlot($index)">Modifier</button>
-        </div>
-        }@else {
-        <button type="button" (click)="displayTraits()">Ajouter un trait</button>
-        }
-        }
+    <!-- Traits -->
+    <div class="traits-container">
+      @for( slot of [0,1,2]; track $index){
+      @if (profileForm.get('traits')?.value[$index]) {
+      <div>
+        <p>{{ profileForm.get('traits')?.value[$index].name }}</p>
+        <button type="button" (click)="modifyTraitSlot($index)">Modifier</button>
       </div>
-      @if (selectTraits) {
-      <div class="all-traits">
-        @for (trait of traits$ | async; track $index) {
-          <div>
-            <button type="button" (click)="addTrait(trait)">{{ trait.name }}</button>
-          </div>
-        }
+      }@else {
+      <button type="button" (click)="displayTraits()">Ajouter un trait</button>
+      }
+      }
+    </div>
+    @if (selectTraits) {
+    <div class="all-traits">
+      @for (trait of traits$ | async; track $index) {
+      <div>
+        <button type="button" (click)="addTrait(trait)">{{ trait.name }}</button>
       </div>
+      }
+    </div>
     }
-    </section>
+  </section>
 
-    <!-- Bio -->
-    <div class="bio-section">
-      <textarea formControlName="bio"></textarea>
+  <!-- Bio -->
+  <div class="bio-section">
+    <textarea formControlName="bio"></textarea>
+  </div>
+
+  <!-- Infos -->
+  <div id="infos">
+    <div class="info">
+      <h2>Location</h2>
+      <input type="text" formControlName="city" />
     </div>
-
-    <!-- Infos -->
-    <div id="infos">
-      <div class="info">
-        <h2>Location</h2>
-        <input type="text" formControlName="city" />
-      </div>
-      <div class="info">
-        <h2>Utilisateur depuis</h2>
-        <p>{{ user?.createdAt | date }}</p>
-      </div>
+    <div class="info">
+      <h2>Utilisateur depuis</h2>
+      <p>{{ user?.createdAt | date }}</p>
     </div>
+  </div>
 
-    <!-- Bouton Submit -->
-    <button type="submit" [disabled]="profileForm.pristine">Enregistrer</button>
-  </form>
-</main>
+  <!-- Bouton Submit -->
+  <button type="submit" [disabled]="profileForm.pristine">Enregistrer</button>
+</form>
+
+<div id="favorites">
+  <h2>Jeux favoris</h2>
+  <div class="games-list">
+    @for (game of user?.favoritesGames; track $index) {
+    <app-game-card [game]="game"></app-game-card>
+    }
+    <h2>Endroits favoris</h2>
+    @for (place of user?.favoritesPlaces; track $index) {
+    <app-place-card [place]="place"></app-place-card>
+    }
+  </div>
+</div>

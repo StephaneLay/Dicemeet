@@ -4,7 +4,7 @@
             <img src="assets/Logo.png" alt="">
         </a>
 
-        @if (!authService.isAuthenticated()) {
+        @if (!(isAuthenticated$ | async) ) {
         <nav>
             <a routerLink="/login">Connexion</a>
             <a routerLink="/subscribe">Inscription</a>
@@ -20,13 +20,6 @@
             <button (click)="logout()" class="ml-2 text-red-400">Déconnexion</button>
         </nav>
         }
-        <!-- <nav>
-            <a routerLink="/parties" class="primary">Rejoindre une partie</a>
-            <a routerLink="/parties/create" class="secondary">Organiser une partie</a>
-            <a routerLink="/login">
-                <img src="assets/user.png" alt="">
-                Connexion
-            </a>
-        </nav> -->
+        
     </div>
 </header>

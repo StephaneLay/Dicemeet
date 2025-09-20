@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = 'http://localhost:8000/api';
 
   http = inject(HttpClient);
+
+  private loggedIn$ = new BehaviorSubject<boolean>(this.isAuthenticated());
 
   login(credentials: { email: string; password: string }) {
     return this.http.post<{ token: string }>(`${this.baseUrl}/login_check`, credentials);
@@ -21,6 +23,7 @@ export class AuthService {
 
   saveToken(token: string) {
     localStorage.setItem('jwt_token', token);
+    this.loggedIn$.next(true);
   }
 
   getToken(): string | null {
@@ -29,22 +32,14 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('jwt_token');
+    this.loggedIn$.next(false);
   }
 
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-   getUserId(): number | null {
-    const token = this.getToken();
-    console.log('Token:', token);
-    if (!token) return null;
-
-    try {
-      const decoded: any = jwtDecode(token);
-      return decoded.id || decoded.sub || null; 
-    } catch (e) {
-      return null;
-    }
+  isLoggedIn$() {
+    return this.loggedIn$.asObservable().pipe(map(()=>this.isAuthenticated()));
   }
 }

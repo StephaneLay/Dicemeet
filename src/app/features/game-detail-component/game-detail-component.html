@@ -1,0 +1,11 @@
+@if (game$ | async ; as game) {
+
+<h1>{{ game.name }}</h1>
+<img src="{{ game.imgUrl }}" alt="game image">
+
+<p>Players: {{ game.minPlayers }} - {{ game.maxPlayers }}</p>
+<h2>Description</h2>
+<p>{{ game.description }}</p>
+<p>Category: {{ game.category }}</p>
+
+}

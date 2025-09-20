@@ -6,10 +6,12 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, } from '@angu
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { TraitsService } from '../../core/services/TraitsService/traits-service';
 import { Trait } from '../../shared/models/traits-model';
+import { GameCard } from '../../shared/game-card/game-card';
+import { PlaceCard } from '../../shared/place-card/place-card';
 
 @Component({
   selector: 'app-self-profile-component',
-  imports: [ReactiveFormsModule, FormsModule, DatePipe, AsyncPipe],
+  imports: [ReactiveFormsModule, FormsModule, DatePipe, AsyncPipe,GameCard,PlaceCard],
   templateUrl: './self-profile-component.html',
   styleUrl: './self-profile-component.css'
 })
