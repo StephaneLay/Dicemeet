@@ -7,7 +7,7 @@ import { User } from '../../../shared/models/user-model';
   providedIn: 'root'
 })
 export class UserService {
-  readonly  apiUrl = 'http://localhost:8000/api/private';
+  readonly apiUrl = 'http://localhost:8000/api/private';
 
   http = inject(HttpClient);
 
@@ -20,19 +20,17 @@ export class UserService {
   }
 
   updateUser(data: Partial<User> | FormData) {
-  if (data instanceof FormData) {
-    // multipart/form-data pour l'image
-    return this.http.patch<User>(
-      `${this.apiUrl}/users/me`,
-      data
-    );
-  } else {
-    // JSON pour le reste
-    return this.http.patch<User>(
-      `${this.apiUrl}/users/me`,
-      data,
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    if (data instanceof FormData) {
+      // méthode override pour s'assurer que PHP parse bien les fichiers
+      data.append('_method', 'PATCH');
+      // envoyer en POST : PHP parse $_POST & $_FILES correctement
+      return this.http.post<User>(`${this.apiUrl}/users/me`, data);
+    } else {
+      return this.http.patch<User>(
+        `${this.apiUrl}/users/me`,
+        data,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    }
   }
-}
 }

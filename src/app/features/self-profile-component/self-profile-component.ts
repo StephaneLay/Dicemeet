@@ -139,14 +139,14 @@ export class SelfProfileComponent {
 
       // Ajouter le fichier
       formData.append('img', img);
-
+      console.log('FormData to be sent:', formData);
       await firstValueFrom(this.userService.updateUser(formData));
 
     } else {
       // --- Cas 2 : pas de fichier image, envoyer JSON ---
       await firstValueFrom(this.userService.updateUser(changes));
     }
-    console.log(this.profileForm.value.img);
+    console.log('Final Object' , this.profileForm.value);
     // Reset dirty flags après sauvegarde
     this.profileForm.markAsPristine();
     this.ngOnInit(); // recharger les données

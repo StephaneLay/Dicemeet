@@ -6,6 +6,7 @@ import { SubscribeComponent } from './features/subscribe-component/subscribe-com
 import { SelfProfileComponent } from './features/self-profile-component/self-profile-component';
 import { OtherProfileComponent } from './features/other-profile-component/other-profile-component';
 import { AuthGuard } from './core/services/auth/guard/auth-guard';
+import { MessagesComponent } from './features/messages-component/messages-component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -14,4 +15,6 @@ export const routes: Routes = [
     {path:'subscribe',component:SubscribeComponent},
     {path:'profile',component:SelfProfileComponent , canActivate: [AuthGuard]},
     {path:'profile/:id',component:OtherProfileComponent , canActivate: [AuthGuard]},
+    {path: 'messages',component:MessagesComponent, canActivate: [AuthGuard]},
+    {path:'**',redirectTo:''} //FAIRE LE 404
 ];
