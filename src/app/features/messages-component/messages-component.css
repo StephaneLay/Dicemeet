@@ -1,0 +1,44 @@
+.messages-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.senders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 250px;
+  border-right: 1px solid #ccc;
+  padding-right: 1rem;
+}
+
+.sender {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.sender:hover {
+  background-color: #f0f0f0;
+}
+
+.sender img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}
+
+.sender h2 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+}

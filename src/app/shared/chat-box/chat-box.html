@@ -1,0 +1,22 @@
+<div class="chat-container">
+    @if (messages$ | async ; as messages) {
+        <div class="chat-messages">
+                @for (message of messages; track $index) {
+                    <div class="chat-message">
+                        <div class="message-header">
+                            <img class="small-avatar" [src]="message.sender.imgUrl" alt="avatar" />
+                            <span class="sender-name">{{ message.sender.name }}</span>
+                        </div>
+            <div class="message-content">{{ message.content }}</div>
+            <div class="message-time">{{ message.time | date:'short' }}</div>
+        </div>
+        
+    }
+        </div>
+    }
+
+    <div class="chat-input">
+        <input [(ngModel)]="newMessage" placeholder="Écrire un message..." />
+        <button (click)="send()">Envoyer</button>
+    </div>
+</div>

@@ -2,8 +2,20 @@
 
 <div class="messages-container">
     <div class="senders-container">
-
+        @for (user of interlocutors$ | async; track $index) {
+            <button class="sender" (click)="displayChat(user.id)">
+                <img [src]="user.imgUrl" alt="profilePic" />
+                <div>
+                    <h2>{{ user.name }}</h2>
+                </div>
+            </button>
+        }
     </div>
     <div class="chat-container">
+        <app-chat-box
+        [messages$]="messages$"
+        [currentUserId]="currentUserId"
+        (sendMessageEvent)="sendMessage($event)">
+    </app-chat-box>
     </div>
 </div>
