@@ -1,1 +1,17 @@
-<p>dashboard-component works!</p>
+<h1>Bienvenue , {{(user$ | async )?.name}}</h1>
+
+<h2>Vos evenements à venir</h2>
+@if (userMeetups$ | async; as meetups) {
+  @if (meetups.length === 0) {
+    <h2>Aucun événement à venir.</h2>
+  } @else {
+    <div class="meetup-container">
+      @for (meetup of meetups; track meetup.id) {
+        <app-meetup-card [meetup]="meetup"></app-meetup-card>
+      }
+    </div>
+  }
+
+  <a routerLink="/events/create">Creer un evenement</a>
+
+}

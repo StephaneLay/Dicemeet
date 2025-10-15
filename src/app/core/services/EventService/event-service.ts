@@ -16,6 +16,14 @@ export class EventService {
     return this.http.get<Meetup[]>(this.api_url);
   }
 
+  getEventById(id: number) : Observable<Meetup>{
+    return this.http.get<Meetup>(`${this.api_url}/${id}`)
+  }
+
+  getUserEvents(user_id:number) : Observable<Meetup[]> {
+    return this.http.get<Meetup[]>(`${this.api_url}/users/${user_id}`);
+  }
+
   getFilteredEvents(filters: Filter[]): Observable<Meetup[]> {
     const params = filters.map(f => `${f.type}:${f.name}`).join(',');
     console.log(params);
