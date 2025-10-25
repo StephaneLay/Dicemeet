@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { MessageService } from '../../core/services/MessageService/message-service';
 import { AsyncPipe } from '@angular/common';
 import { User } from '../../shared/models/user-model';
-import { firstValueFrom, Observable, of } from 'rxjs';
 import { ChatBox } from '../../shared/chat-box/chat-box';
 import { Message } from '../../shared/models/message-model';
 import { UserService } from '../../core/services/UserService/user-service';
-
+import { Observable, firstValueFrom, of } from 'rxjs';
 
 @Component({
   selector: 'app-messages-component',
@@ -23,6 +22,7 @@ export class MessagesComponent {
   interlocutors$: Observable<User[]> = this.messageService.getUserInterlocutors();
   messages$: Observable<Message[]> | null = null;
   currentUserId!:number;
+  currentInterlocutorId!:number;
   
 
   async ngOnInit(): Promise<void> {
@@ -37,14 +37,17 @@ export class MessagesComponent {
     this.messageService.getChat(interlocutorId).subscribe({
       next: (messages) => {
         this.messages$ = of(messages);
+        this.currentInterlocutorId = interlocutorId;
       }
     });
   }
 
   sendMessage(content: string) {
-    console.log("Sending message:", content);
-    // Ici, vous pouvez appeler une méthode du service pour envoyer le message au backend
-    // Par exemple : this.messageService.sendMessage(interlocutorId, content);
+    this.messageService.sendMessage(this.currentInterlocutorId, content).subscribe({
+      next: () => {
+        this.displayChat(this.currentInterlocutorId);
+      }
+    });
   }
 
 

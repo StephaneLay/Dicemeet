@@ -1,9 +1,10 @@
-import { Component, ElementRef, EventEmitter, inject, Output, viewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild } from '@angular/core';
 import { SearchService } from '../../core/services/SearchService/search-service';
 import { debounceTime, of, Subject, switchMap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { Filter } from '../models/filter-model';
+
 
 @Component({
   standalone: true,
@@ -18,7 +19,11 @@ export class SearchBar {
   searchTerm = '';
   searchInput$ = new Subject<string>();
 
-
+  // Type de recherche pour conditionner les suggestions
+  @Input() searchType: 'games' | 'places' | 'city' | undefined = undefined;
+  
+  // Placeholder personnalisé (optionnel)
+  @Input() customPlaceholder?: string;
 
   //Emet tous les filtres selectionnés au composant parent
   @Output() filtersChanged = new EventEmitter<Filter>();
@@ -28,7 +33,17 @@ export class SearchBar {
   //Liste qui se met a jour lors de la recherche ( et n'affiche rien si la barre est vide)
   suggestions$ = this.searchInput$.pipe(
     debounceTime(300),
-    switchMap(query => query ? this.searchService.search(query) : of([]))
+    switchMap(query => {
+      if (!query) return of([]);
+      
+      // Si searchType est défini, utiliser la recherche spécifique
+      if (this.searchType) {
+        return this.searchService.search(query, this.searchType);
+      }
+      
+      // Sinon, utiliser la recherche par défaut (événements)
+      return this.searchService.search(query);
+    })
   );
 
   //Met a jour la liste des suggestions lors de la saisie
@@ -46,5 +61,24 @@ export class SearchBar {
     this.searchInput$.next('');
   }
 
+  // Retourne le placeholder approprié selon le type de recherche
+  getPlaceholder(): string {
+    // Si un placeholder personnalisé est fourni, l'utiliser
+    if (this.customPlaceholder) {
+      return this.customPlaceholder;
+    }
+    
+    // Sinon, utiliser le placeholder par défaut selon le type
+    switch (this.searchType) {
+      case 'games':
+        return 'Rechercher un jeu...';
+      case 'places':
+        return 'Rechercher un lieu...';
+      case 'city':
+        return 'Rechercher une ville...';
+      default:
+        return 'Rechercher un événement...';
+    }
+  }
 
 }

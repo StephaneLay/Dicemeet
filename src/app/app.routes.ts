@@ -18,7 +18,7 @@ import { ManageEventComponent } from './features/manage-event-component/manage-e
 export const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [HomeGuard], },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'parties', component: GamesListComponent , canActivate: [AuthGuard] },
+    { path: 'events', component: GamesListComponent , canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'subscribe', component: SubscribeComponent },
     { path: 'profile', component: SelfProfileComponent, canActivate: [AuthGuard] },

@@ -1,1 +1,33 @@
 <h1>Creez votre propre evenement</h1>
+
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+
+    @if(eventForm.get('game')?.value) {
+        <p>Jeu : {{ eventForm.get('game')?.value }}</p>
+    }@else {
+        Choix du jeu :
+    <app-search-bar [searchType]="'games'" (filtersChanged)="addfilter($event)"></app-search-bar>
+    }
+    @if(eventForm.get('place')?.value) {
+        <p>Lieu : {{ eventForm.get('place')?.value }}</p>
+        <p>Ville : {{ eventForm.get('city')?.value }}</p>
+    }@else {
+    Choix du lieu :
+    <app-search-bar [searchType]="'places'" (filtersChanged)="addfilter($event)"></app-search-bar>
+    }
+
+    Choix date et heure :
+    @if(eventForm.get('date')?.value) {
+        <p>Date et heure : {{ eventForm.get('date')?.value }}</p>
+    }@else {
+        Choix date et heure :
+        <input type="datetime-local" formControlName="date" [value]="eventForm.get('date')?.value">
+    }
+
+
+    @if(isedited) {
+        <button (click)="clearEdited()">Effacer les modifications</button>
+    }   
+    <button type="submit">Créer l'événement</button>
+    
+</form>

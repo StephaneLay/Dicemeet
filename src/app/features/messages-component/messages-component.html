@@ -11,6 +11,7 @@
             </button>
         }
     </div>
+    @if (currentInterlocutorId) {
     <div class="chat-container">
         <app-chat-box
         [messages$]="messages$"
@@ -18,4 +19,5 @@
         (sendMessageEvent)="sendMessage($event)">
     </app-chat-box>
     </div>
+    }
 </div>

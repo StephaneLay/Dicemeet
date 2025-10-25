@@ -3,14 +3,14 @@
     type="text"
     [(ngModel)]="searchTerm"
     (input)="onSearchChange()"
-    placeholder="Rechercher un événement..."
+    [placeholder]="getPlaceholder()"
     class="search-input"
   />
 
   @if (suggestions$ | async ; as suggestions) {
     @if (suggestions.length > 0) {
       <ul class="suggestions">
-        @for (filter of suggestions; track filter.name) {
+        @for (filter of suggestions; track $index) {
           <li (click)="selectItem(filter)">
             {{ filter.name }}
             <span class="label">{{ filter.type }}</span>

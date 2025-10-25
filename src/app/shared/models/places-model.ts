@@ -4,4 +4,5 @@ export interface Place {
     location: string;
     capacity: number;
     imgUrl?: string;
+    cityName: string;
 }

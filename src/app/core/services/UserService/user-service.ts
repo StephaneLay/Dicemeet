@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../../../shared/models/user-model';
+import { Meetup } from '../../../shared/models/meetup-model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class UserService {
         { headers: { 'Content-Type': 'application/json' } }
       );
     }
+  }
+
+  getUserEvents(userId: number): Observable<Meetup[]> {
+    return this.http.get<Meetup[]>(`${this.apiUrl}/users/${userId}/events`);
+  }
+
+  getUserOwnedEvents(userId: number): Observable<Meetup[]> {
+    return this.http.get<Meetup[]>(`${this.apiUrl}/users/${userId}/owned`);
   }
 }

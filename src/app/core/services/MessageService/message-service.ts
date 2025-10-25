@@ -19,4 +19,12 @@ export class MessageService {
         return this.http.get<Message[]>(`${this.apiUrl}/messages/${interlocutorId}`);
     }
 
+    sendMessage(interlocutorId: number, content: string) {
+        return this.http.post<Message>(`${this.apiUrl}/messages/${interlocutorId}`, { content: content });
+    }
+
+    deleteMessage(messageId: number) {
+        return this.http.delete<void>(`${this.apiUrl}/messages/${messageId}`);
+    }
+
   }

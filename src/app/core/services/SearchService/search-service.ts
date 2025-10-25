@@ -11,7 +11,11 @@ export class SearchService {
 
   http = inject(HttpClient);
 
-  public search(query: string): Observable<Filter[]> {
+  public search(query: string, searchType?: 'games' | 'places' | 'city'): Observable<Filter[]> {
+    if (searchType) {
+      return this.http.get<Filter[]>(`${this.apiUrl}?search=${query}&type=${searchType}`);
+    }
+    // Recherche par défaut (événements) - comportement original
     return this.http.get<Filter[]>(`${this.apiUrl}?search=${query}`);
   }
 }

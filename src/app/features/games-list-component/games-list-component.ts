@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { EventService } from '../../core/services/EventService/event-service';
-import { MeetupCard } from '../../shared/meetup-card/meetup-card';
 import { Meetup } from '../../shared/models/meetup-model';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Filter } from '../../shared/models/filter-model';
 import { AsyncPipe } from '@angular/common';
+import { MeetupCard } from '../../shared/meetup-card/meetup-card';
 
 @Component({
   selector: 'app-games-list-component',
-  imports: [SearchBar, MeetupCard, AsyncPipe],
+  imports: [SearchBar, AsyncPipe,MeetupCard],
   templateUrl: './games-list-component.html',
   styleUrl: './games-list-component.css'
 })

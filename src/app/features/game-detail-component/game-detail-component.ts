@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../core/services/GameService/game-service';
 import { AsyncPipe } from '@angular/common';
-import { catchError, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-game-detail-component',
@@ -20,13 +20,8 @@ export class GameDetailComponent {
     if (err.status === 404) {
       this.router.navigate(['/not-found'])
     }
-    return of(null);
+    return of(undefined);
   }));
 
-  // user$ = this.userService.getUserById(Number(this.userId)).pipe(
-  //   catchError(err => {
-  //     if (err.status === 404) {
-  //       this.router.navigate(['/not-found']);
-  //     }
-  //     return of(null);
+ 
 }
