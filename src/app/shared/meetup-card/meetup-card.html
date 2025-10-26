@@ -4,9 +4,12 @@
     <p><strong>Lieu :</strong> {{ meetup.place }} ({{ meetup.city  }})</p>
     <p><strong>Date :</strong> {{ meetup.date }}</p>
     <p><strong>Participants :</strong> {{ meetup.participants }} / {{ meetup.maxParticipants }}</p>
+    <p>Organisateur :</p>
+    @if(owner$ | async; as owner) {
+    <app-user-card [user]="owner"></app-user-card>
+    }
   </div>
   <div class="actions">
-    <button>Voir</button>
-    <a routerLink="/events/{{meetup.id}}">Rejoindre</a>
+    <a routerLink="/events/{{meetup.id}}">Voir</a>
   </div>
 </div>

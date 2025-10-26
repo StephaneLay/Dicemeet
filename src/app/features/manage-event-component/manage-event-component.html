@@ -1,33 +1,69 @@
 <h1>Événement n° {{ (currentEvent$| async )?.id }}</h1>
 
-<div class="event-info">
-  <p><strong>Organisateur :</strong> {{ (currentEvent$| async )?.ownerId }}</p>
+@if(canJoin$ | async) {
+  <button (click)="joinEvent()">Rejoindre l'événement</button>  
+} @else if ((isParticipant$ | async) === false) {
+  <p>Cet événement est complet</p>
   <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
   <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
   <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
-</div>
-
-@if (isOwner$ | async) {
-  <div class="owner-controls">
-    <button (click)="cancelEvent()">Annuler l'événement</button>
+} @else {
+  <div class="event-info">
+    <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
+    <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
+    <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
+    <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
   </div>
-}
-
-<div class="participants-container">
-  <h2>Participants</h2>
-  @for (user of (eventUsers$| async ); track $index) {
-    <div class="participant-item">
-      @if (user.id !== (currentEvent$| async )?.ownerId) {
-        <p>{{ user.name }}</p>
-        @if (isOwner$ | async) {
-          <button (click)="kickUser(user.id)">Exclure</button>
-        }
-      } @else {
-        <p><strong>{{ user.name }} (Organisateur)</strong></p>
+  
+  @if (isOwner$ | async) {
+    <div class="owner-controls">
+      <button (click)="onEdit()">Modifier l'événement</button>
+      <button (click)="cancelEvent()">Annuler l'événement</button>
+      
+      @if(editMode) {
+        <form [formGroup]="eventForm" (ngSubmit)="onUpdate()">
+          
+          @if(eventForm.get('place')?.value) {
+              <p>Lieu : {{ eventForm.get('place')?.value }}</p>
+              <p>Ville : {{ eventForm.get('city')?.value }}</p>
+          }@else {
+            Choix du nouveau lieu :
+            <app-search-bar [searchType]="'places'" (filtersChanged)="addfilter($event)"></app-search-bar>
+          }
+    
+          Choix date et heure :
+          @if(eventForm.get('date')?.value) {
+              <p>Date et heure : {{ eventForm.get('date')?.value }}</p>
+          }@else {
+              <input type="datetime-local" formControlName="date" [value]="eventForm.get('date')?.value">
+          }
+    
+          @if(isedited) {
+              <button type="button" (click)="clearEdited()">Effacer les modifications</button>
+          }
+          <button type="submit">Mettre à jour l'événement</button>
+        </form>
       }
     </div>
+  } @else {
+    <button (click)="leaveEvent()">Se désinscrire</button>
   }
-</div>
 
-<app-chat-box [messages$]="eventMessages$" [currentUserId]="(currentUser$| async )!.id"></app-chat-box>
-
+  <div class="participants-container">
+    <h2>Participants</h2>
+    @for (user of (eventUsers$| async ); track $index) {
+      <div class="participant-item">
+        @if (user.id !== (currentEvent$| async )?.ownerId) {
+          <p>{{ user.name }}</p>
+          @if (isOwner$ | async) {
+            <button (click)="kickUser(user.id)">Exclure</button>
+          }
+        } @else {
+          <p><strong>{{ user.name }} (Organisateur)</strong></p>
+        }
+      </div>
+    }
+  </div>
+  
+  <app-chat-box [messages$]="eventMessages$" (sendMessageEvent)="postMessage($event)"></app-chat-box>
+}

@@ -34,14 +34,11 @@ export class SelfProfileComponent {
     traits: [[]]
   });
 
-  user?: User; // copie locale pour comparer si besoin
+  user?: User;
 
   async ngOnInit() {
-    // Récupérer l'utilisateur une seule fois
     this.user = await firstValueFrom(this.userService.getCurrentUser());
-    console.log(this.user);
 
-    // Pré-remplir le formulaire
     this.profileForm.patchValue({
       img: this.user.imgUrl,
       name: this.user.name,
@@ -67,11 +64,9 @@ export class SelfProfileComponent {
   }
   get displayImg(): string {
     const imgControl = this.profileForm.get('img')?.value;
-    // Si imgControl est un File et qu'on a preview => afficher preview
     if (imgControl instanceof File && this.imgPreview) {
       return this.imgPreview;
     }
-    // Sinon afficher URL de l'utilisateur
     return this.user?.imgUrl ?? '';
   }
 
@@ -102,7 +97,6 @@ export class SelfProfileComponent {
   async saveProfile() {
     if (!this.user) return;
 
-    // Extraire uniquement les champs modifiés
     const changes: Partial<User> = {};
     Object.keys(this.profileForm.controls).forEach(key => {
       const control = this.profileForm.get(key);
@@ -112,17 +106,14 @@ export class SelfProfileComponent {
     });
 
     if (Object.keys(changes).length === 0) {
-      console.log('Aucun changement détecté');
       return;
     }
 
     const img = this.profileForm.get('img')?.value;
 
-    // --- Cas 1 : fichier image présent ---
     if (img instanceof File) {
       const formData = new FormData();
 
-      // Ajouter les champs simples
       Object.keys(changes).forEach(key => {
         if (key === 'traits') {
           formData.append(key, JSON.stringify(changes[key as keyof User]));
@@ -132,26 +123,20 @@ export class SelfProfileComponent {
             if (typeof value === 'string') {
               formData.append(key, value);
             } else {
-              // Pour nombres ou tableaux, on stringify
               formData.append(key, JSON.stringify(value));
             }
           }
         }
       });
 
-      // Ajouter le fichier
       formData.append('img', img);
-      console.log('FormData to be sent:', formData);
       await firstValueFrom(this.userService.updateUser(formData));
 
     } else {
-      // --- Cas 2 : pas de fichier image, envoyer JSON ---
       await firstValueFrom(this.userService.updateUser(changes));
     }
-    console.log('Final Object' , this.profileForm.value);
-    // Reset dirty flags après sauvegarde
     this.profileForm.markAsPristine();
-    this.ngOnInit(); // recharger les données
+    this.ngOnInit();
   }
 
 }

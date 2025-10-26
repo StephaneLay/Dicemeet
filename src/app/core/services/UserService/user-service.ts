@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../../../shared/models/user-model';
 import { Meetup } from '../../../shared/models/meetup-model';
-
+import { Notification } from '../../../shared/models/notification-model';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +33,10 @@ export class UserService {
         { headers: { 'Content-Type': 'application/json' } }
       );
     }
+  }
+
+  getUserNotifications(userId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.apiUrl}/users/${userId}/notifications`);
   }
 
   getUserEvents(userId: number): Observable<Meetup[]> {

@@ -1,0 +1,3 @@
+<p>{{ notification.content }}</p>
+<p>{{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+<button (click)="deleteNotification(notification.id)">Supprimer</button>

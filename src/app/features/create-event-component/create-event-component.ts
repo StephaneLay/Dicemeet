@@ -5,6 +5,7 @@ import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Filter } from '../../shared/models/filter-model';
 import { Meetup } from '../../shared/models/meetup-model';
 import { PlaceService } from '../../core/services/PlaceService/place-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-event-component',
@@ -15,6 +16,7 @@ import { PlaceService } from '../../core/services/PlaceService/place-service';
 export class CreateEventComponent {
   eventService = inject(EventService);
   placeService = inject(PlaceService);
+  router = inject(Router);
   eventForm = new FormGroup({
     game: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
@@ -25,9 +27,7 @@ export class CreateEventComponent {
   isedited = false;
 
   onSubmit() {
-    console.log(this.eventForm.value);
     if (this.eventForm.invalid) {
-      console.log('Form is invalid');
       this.eventForm.markAllAsTouched();
       return;
     }
@@ -43,7 +43,7 @@ export class CreateEventComponent {
     }
     this.eventService.createEvent(event).subscribe({
       next: (event) => {
-        console.log(event);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error(err.error.message);

@@ -50,4 +50,10 @@ export class EventService {
   kickUserFromEvent(eventId: number, userId: number): Observable<void> {
     return this.http.delete<void>(`${this.api_url}/private/events/${eventId}/users/${userId}`);
   }
+
+  joinEvent(eventId: number, userId: number): Observable<void> {
+    return this.http.post<void>(`${this.api_url}/private/events/${eventId}/users/${userId}`, {});
+  }
+
+  
 }

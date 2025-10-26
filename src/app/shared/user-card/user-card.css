@@ -1,0 +1,16 @@
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+}

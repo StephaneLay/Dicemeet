@@ -1,6 +1,30 @@
 <h1>Bienvenue , {{(user$ | async )?.name}}</h1>
 
-<h2>Vos evenements à venir</h2>
+<h2>Vos notifications</h2>
+@if (userNotifications$ | async; as notifications) {
+  @if (notifications.length === 0) {
+    <h2>Aucune notification.</h2>
+  } @else {
+    <div class="notification-container">
+      @for (notification of notifications; track notification.id) {
+        <app-notification-card [notification]="notification" (deleteNotificationEvent)="deleteNotification($event)"></app-notification-card>
+      }
+    </div>
+  }
+} 
+<h2>Vos evenements organisés</h2>
+@if (userOwnedMeetups$ | async; as ownedMeetups) {
+  @if (ownedMeetups.length === 0) {
+    <h2>Aucun événement organisé.</h2>
+  } @else {
+    <div class="meetup-container">
+      @for (meetup of ownedMeetups; track meetup.id) {
+        <app-meetup-card [meetup]="meetup"></app-meetup-card>
+      }
+    </div>
+  }
+}
+<h2>Tous vos evenements à venir</h2>
 @if (userMeetups$ | async; as meetups) {
   @if (meetups.length === 0) {
     <h2>Aucun événement à venir.</h2>
@@ -11,7 +35,6 @@
       }
     </div>
   }
-
-  <a routerLink="/events/create">Creer un evenement</a>
-
 }
+
+<a routerLink="/events/create">Creer un evenement</a>

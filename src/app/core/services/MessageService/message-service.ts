@@ -27,4 +27,8 @@ export class MessageService {
         return this.http.delete<void>(`${this.apiUrl}/messages/${messageId}`);
     }
 
+    postChatMessage(eventId: number, content: string) {
+        return this.http.post<Message>(`${this.apiUrl}/events/${eventId}/messages`, { content: content });
+    }
+
   }

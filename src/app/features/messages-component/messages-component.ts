@@ -6,11 +6,12 @@ import { ChatBox } from '../../shared/chat-box/chat-box';
 import { Message } from '../../shared/models/message-model';
 import { UserService } from '../../core/services/UserService/user-service';
 import { Observable, firstValueFrom, of } from 'rxjs';
+import { UserCard } from '../../shared/user-card/user-card';
 
 @Component({
   selector: 'app-messages-component',
   standalone: true,
-  imports: [AsyncPipe,ChatBox],
+  imports: [AsyncPipe,ChatBox,UserCard],
   templateUrl: './messages-component.html',
   styleUrl: './messages-component.css'
 })
