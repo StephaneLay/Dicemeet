@@ -2,22 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import board game friendly font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap');
 
+/* Global Color Variables */
 :root {
-    --primary-color: rgb(221, 197, 59);
-    --secondary-color: rgb(55, 0, 128);
-    font-size: 18px;
+  --primary-yellow: #FFD700;
+  --primary-purple: #6A5ACD;
+  --dark-gray: #333333;
+  --light-gray: #E0E0E0;
+  --text-gray: #666666;
+  --border-gray: #CCCCCC;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* Global Styles */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
+  font-family: 'Nunito', 'Fredoka', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  font-weight: 600;
+}
+

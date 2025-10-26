@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -39,7 +39,12 @@ export class AuthService {
     return !!this.getToken();
   }
 
+  checkAuthStatus() {
+    const currentStatus = this.isAuthenticated();
+    this.loggedIn$.next(currentStatus);
+  }
+
   isLoggedIn$() {
-    return this.loggedIn$.asObservable().pipe(map(()=>this.isAuthenticated()));
+    return this.loggedIn$.asObservable();
   }
 }

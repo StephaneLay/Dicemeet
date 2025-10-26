@@ -1,60 +1,89 @@
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-height: 100%;
-    border-left: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  max-height: 600px;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
 .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #f8f8f8;
 }
 
 .chat-message {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.2s;
 }
 
-.message-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.small-avatar {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-}
-
-.sender-name {
-    font-weight: bold;
-    font-size: 0.9rem;
+.chat-message:hover {
+  border-color: var(--primary-purple);
+  box-shadow: 0 2px 8px rgba(106, 90, 205, 0.15);
 }
 
 .message-content {
-    font-size: 1rem;
-    margin: 0.25rem 0;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #000;
+  line-height: 1.5;
 }
 
 .message-time {
-    font-size: 0.75rem;
-    color: #888;
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.25rem;
 }
 
 .chat-input {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    border-top: 1px solid #ccc;
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border-top: 2px solid #e0e0e0;
 }
 
 .chat-input input {
-    flex: 1;
-    padding: 0.5rem;
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.chat-input input:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.1);
+}
+
+.chat-input input::placeholder {
+  color: #999;
 }
 
 .chat-input button {
-    padding: 0.5rem 1rem;
+  background-color: var(--primary-purple);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chat-input button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
 }

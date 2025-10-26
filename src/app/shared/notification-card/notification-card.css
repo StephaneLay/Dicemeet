@@ -1,0 +1,51 @@
+:host {
+  display: block;
+  border: 2px solid #e0e0e0;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  background-color: #fff;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+:host:hover {
+  border-color: var(--primary-purple);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+p:first-child {
+  font-weight: 500;
+  color: #000;
+  font-size: 1rem;
+}
+
+p:last-of-type {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+button {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.75rem;
+}
+
+button:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+}
+

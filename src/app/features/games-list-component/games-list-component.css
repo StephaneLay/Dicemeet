@@ -1,27 +1,130 @@
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #000;
+  margin: 2rem 0 1.5rem 0;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  margin: 2rem 0;
+}
+
 .active-filters {
-  margin-top: 10px;
+  margin: 1.5rem 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .tag {
-  background-color: #eee;
-  padding: 5px 10px;
-  border-radius: 20px;
+  background-color: var(--primary-yellow);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .type {
-  font-size: 0.8em;
-  margin-left: 5px;
-  color: #666;
+  font-size: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.tag button:hover {
+  transform: scale(1.2);
+}
+
+.active-filters button:last-child {
+  background-color: #e63946;
+  color: white;
+  padding: 0.625rem 1rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.active-filters button:last-child:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+}
+
+.meetup-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .pagination {
-  margin-top: 20px;
+  margin: 3rem auto;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pagination button {
+  background-color: var(--primary-purple);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+}
+
+.pagination button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination span {
+  font-weight: 600;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .meetup-container {
+    grid-template-columns: 1fr;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
 }

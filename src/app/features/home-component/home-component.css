@@ -1,274 +1,247 @@
-
-
-.primary {
-    background-color: var(--primary-color);
-    padding: .7rem 3rem;
-    border-radius: 20px;
-    letter-spacing: .05rem;
+/* Color Variables */
+:root {
+  --primary-yellow: #FFD700;
+  --primary-purple: #6A5ACD;
+  --dark-gray: #333333;
+  --light-gray: #E0E0E0;
+  --text-gray: #666666;
+  --border-gray: #CCCCCC;
 }
 
-.secondary {
-    background-color: var(--secondary-color);
-    padding: .7rem 3rem;
-    border-radius: 20px;
-    letter-spacing: .05rem;
-}
-
-.container {
-
-    width: 90%;
-    margin: auto;
-    padding: 2rem 0;
-}
-
-
-
+/* Hero Section */
 .hero {
-    background-color: #e0e0e0;
-    padding: 6rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 4rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
+.hero .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
 .hero h2 {
-    width: 60%;
-    font-size: 3.1em;
-    margin-bottom: 1rem;
-    color: black;
-    line-height: 4rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 .hero p {
-    width: 90%;
-    font-weight: 500;
-    margin-bottom: 1rem;
-
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 .hero img {
-    height: 50%;
-    width: 50%;
-    border-radius: 20px;
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
+/* Button Styles */
 .cta {
-    display: inline-block;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    margin-top: 1rem;
-    text-decoration: none;
-    font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
 }
 
-.games-list h3,
-.themes h3,
-.inscription h3,
-.cta-organiser h3 {
-    font-size: 1.5em;
-    margin-bottom: 1rem;
-    color: #444;
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cta.primary {
+  background-color: var(--primary-yellow);
+  color: #000;
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+}
+
+.cta.secondary {
+  background-color: var(--primary-purple);
+  color: #fff;
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+}
+
+/* Games List Section */
+.games-list {
+  background-color: #fff;
+  padding: 3rem 0;
 }
 
 .cardcontainer {
-    width: 90%;
-    margin: auto;
-    padding: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.cardcontainer h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .cards {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .gamecard {
-    flex: 1 1 calc(33.33% - 1rem);
-    background: white;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    text-align: center;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gamecard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .gamecard img {
-    width: 100%;
-    height: 14rem;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
 }
 
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    padding: 40px 0;
-    text-align: center;
-    font-family: Arial, sans-serif;
+.gamecard h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin: 1rem 1rem 0.5rem;
+}
+
+.gamecard p {
+  color: var(--text-gray);
+  margin: 0 1rem 1rem;
+  font-size: 0.95rem;
+}
+
+.gamecard .cta {
+  margin: 0 1rem 1.5rem;
+}
+
+/* CTA Organiser Section */
+.cta-organiser {
+  background-color: #f8f8f8;
+  padding: 3rem 0;
+}
+
+.cta-organiser .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  text-align: center;
+}
+
+.cta-organiser h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 1.5rem;
+}
+
+/* Themes Section */
+.themes {
+  padding: 3rem 0;
+  background-color: #fff;
+}
+
+.themes .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.themes h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .category {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px;
+  display: inline-block;
+  background: #fff;
+  border: 2px solid var(--border-gray);
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem;
+  transition: all 0.2s;
 }
 
-.icon {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #f0a91f;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.icon img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+.category:hover {
+  border-color: var(--primary-yellow);
+  background-color: rgba(255, 215, 0, 0.1);
 }
 
 .category p {
-    margin: 0;
-    font-weight: bold;
+  color: #000;
+  margin: 0;
+  font-weight: 500;
 }
 
-
-.inscriptionsection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+/* Benefits Section */
+.benefits {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 0;
+  background-color: #f8f8f8;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.inscription form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-    width: 30%;
-    margin-right: 1rem;
+.benefits p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #000;
 }
 
-#map {
-    width: 60%;
-    height: 20rem;
-}
-
-.inscription input,
-.inscription select {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.inscription button {
-    background-color: var(--primary-color);
-    padding: .7rem 3rem;
-    border-radius: 20px;
-    letter-spacing: .05rem;
-}
-
-.cta-organiser {
-    background: #f0f0f0;
-    text-align: center;
-    padding: 3rem 1rem;
-}
-
-footer {
-    background: #222;
-    color: #ccc;
-    text-align: center;
-    padding: 1rem 0;
-    font-size: 0.9rem;
-}
-
-.organiser {
-    display: flex;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 2rem;
-}
-
-.intro {
-    flex: 1;
-}
-
-.intro h1 {
-    font-size: 2rem;
-    color: #333;
-}
-
-.intro .button {
-    display: inline-block;
-    margin-top: 1rem;
-    background-color: #2196f3;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.party-cards {
-    flex: 2;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 2rem 5%;
+  }
+  
+  .hero h2 {
+    font-size: 1.75rem;
+  }
+  
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits {
+    flex-direction: column;
     gap: 1.5rem;
+  }
 }
 
-.card {
-    background-color: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.card h2 {
-    margin-top: 0.5rem;
-    color: #555;
-}
-
-.card .players {
-    font-weight: bold;
-}
-
-.card button {
-    margin-top: 0.5rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.filters {
-    flex: 1;
-    background-color: #eee;
-    padding: 1rem;
-    border-radius: 8px;
-}
-
-.filters h3 {
-    margin-bottom: 1rem;
-}
-
-.filters ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1rem;
-}
-
-.filters ul.tags li {
-    background-color: #ddd;
-    display: inline-block;
-    margin: 0.2rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 12px;
-}
