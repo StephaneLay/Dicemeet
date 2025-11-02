@@ -1,22 +1,28 @@
 <header>
     <div class="header-container">
-        <a routerLink="/">
-            <img src="assets/Logo.png" alt="">
+        <a routerLink="/" class="logo-link">
+            <img src="assets/Logo.png" alt="DiceMeet Logo">
         </a>
 
+        <button class="mobile-menu-toggle" [class.active]="mobileMenuOpen" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
         @if (!(isAuthenticated$ | async) ) {
-        <nav>
-            <a routerLink="/login">Connexion</a>
-            <a routerLink="/subscribe">Inscription</a>
-            <a routerLink="/events">Événements</a>
+        <nav [class.mobile-open]="mobileMenuOpen">
+            <a routerLink="/login" (click)="closeMobileMenu()">Connexion</a>
+            <a routerLink="/subscribe" (click)="closeMobileMenu()">Inscription</a>
+            <a routerLink="/events" (click)="closeMobileMenu()">Événements</a>
         </nav>
         }
         @else {
-        <nav>
-            <a routerLink="/events">Événements</a>
-            <a routerLink="/messages">Messagerie</a>
-            <a routerLink="/users">Mon profil</a>
-            <button (click)="logout()">Déconnexion</button>
+        <nav [class.mobile-open]="mobileMenuOpen">
+            <a routerLink="/events" (click)="closeMobileMenu()">Événements</a>
+            <a routerLink="/messages" (click)="closeMobileMenu()">Messagerie</a>
+            <a routerLink="/users" (click)="closeMobileMenu()">Mon profil</a>
+            <button (click)="logout(); closeMobileMenu()">Déconnexion</button>
         </nav>
         }
         

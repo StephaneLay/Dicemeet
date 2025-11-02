@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '../../core/services/EventService/event-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, combineLatest, of, catchError } from 'rxjs';
+import { map, Observable, combineLatest, of, catchError, shareReplay, tap } from 'rxjs';
 import { Meetup } from '../../shared/models/meetup-model';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { User } from '../../shared/models/user-model';
@@ -20,7 +20,7 @@ import { PlaceService } from '../../core/services/PlaceService/place-service';
   templateUrl: './manage-event-component.html',
   styleUrl: './manage-event-component.css'
 })
-export class ManageEventComponent {
+export class ManageEventComponent implements OnInit {
   eventService = inject(EventService)
   userService = inject(UserService)
   messageService = inject(MessageService)
@@ -42,56 +42,82 @@ export class ManageEventComponent {
     this.editMode = true;
   }
 
+  // Share observables to avoid multiple subscriptions
   currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
     catchError(err => {
       if (err.status === 404) {
         this.router.navigate(['/not-found']);
       }
       return of(undefined);
-    })
+    }),
+    shareReplay(1)
   )
 
+  currentUser$: Observable<User> = this.userService.getCurrentUser().pipe(
+    shareReplay(1)
+  )
 
-  currentUser$: Observable<User> = this.userService.getCurrentUser()
-  eventUsers$: Observable<User[]> = this.eventService.getEventUsers(this.eventId)
-  eventMessages$!: Observable<Message[]>
+  eventUsers$: Observable<User[]> = this.eventService.getEventUsers(this.eventId).pipe(
+    shareReplay(1)
+  )
+
+  eventMessages$: Observable<Message[]> = this.eventService.getEventMessages(this.eventId).pipe(
+    catchError(() => of([])),
+    shareReplay(1)
+  )
+
+  // Combined loading state - all data must be loaded
+  isLoading$ = combineLatest([
+    this.currentEvent$,
+    this.currentUser$,
+    this.eventUsers$
+  ]).pipe(
+    map(([event, user, users]) => {
+      return !event || !user || !users;
+    })
+  )
 
   // Check if current user is the owner
   isOwner$: Observable<boolean> = combineLatest([
     this.currentEvent$,
     this.currentUser$
   ]).pipe(
-    map(([event, user]) => event?.ownerId === user.id)
+    map(([event, user]) => {
+      if (!event || !user) return false;
+      return event.ownerId === user.id;
+    }),
+    shareReplay(1)
   )
 
   isParticipant$: Observable<boolean> = combineLatest([
     this.eventUsers$,
     this.currentUser$
   ]).pipe(
-    map(([users, user]) => users.some(u => u.id === user.id))
+    map(([users, user]) => {
+      if (!users || !user) return false;
+      return users.some(u => u.id === user.id);
+    }),
+    shareReplay(1)
   )
 
-  canJoin$: Observable<boolean> = combineLatest([
+  // User state: 'loading' | 'canJoin' | 'isParticipant' | 'isFull'
+  userState$: Observable<'loading' | 'canJoin' | 'isParticipant' | 'isFull'> = combineLatest([
     this.isParticipant$,
     this.currentEvent$,
-    this.eventUsers$
+    this.isLoading$
   ]).pipe(
-    map(([isParticipant, event, users]) => {
-      return !isParticipant && !!event && (event.participants < event.maxParticipants);
-    })
+    map(([isParticipant, event, isLoading]) => {
+      if (isLoading || !event) return 'loading';
+      if (isParticipant) return 'isParticipant';
+      if (event.participants >= event.maxParticipants) return 'isFull';
+      return 'canJoin';
+    }),
+    shareReplay(1)
   )
 
-  async ngOnInit() {
-    await this.displayChat()
-  }
-
-  displayChat() {
-    this.eventService.getEventMessages(this.eventId).subscribe({
-      next: (messages) => {
-        this.eventMessages$ = of(messages)
-        console.log(messages);
-      }
-    })
+  ngOnInit() {
+    // Data is loaded automatically through observables
+    // No need for async ngOnInit
   }
 
 
@@ -101,7 +127,17 @@ export class ManageEventComponent {
       this.eventService.kickUserFromEvent(this.eventId, userId).subscribe({
         next: () => {
           alert('Utilisateur exclu avec succès')
-          location.reload();
+          // Refresh data instead of full page reload
+          this.eventUsers$ = this.eventService.getEventUsers(this.eventId).pipe(shareReplay(1));
+          this.currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
+            catchError(err => {
+              if (err.status === 404) {
+                this.router.navigate(['/not-found']);
+              }
+              return of(undefined);
+            }),
+            shareReplay(1)
+          );
         },
         error: (error) => {
           console.error('Erreur lors de l\'exclusion de l\'utilisateur:', error)
@@ -129,7 +165,11 @@ export class ManageEventComponent {
   postMessage(content: string) {
     this.messageService.postChatMessage(this.eventId, content).subscribe({
       next: () => {
-        this.displayChat()
+        // Refresh messages
+        this.eventMessages$ = this.eventService.getEventMessages(this.eventId).pipe(
+          catchError(() => of([])),
+          shareReplay(1)
+        )
       }
     })
   }
@@ -153,13 +193,20 @@ export class ManageEventComponent {
 
     this.eventService.updateEvent(this.eventId, updateData).subscribe({
       next: (event) => {
-        console.log('Event updated:', event);
         alert('Événement modifié avec succès');
         this.eventForm.reset();
         this.isedited = false;
         this.editMode = false;
         // Refresh the event data
-        this.currentEvent$ = this.eventService.getEventById(this.eventId);
+        this.currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
+          catchError(err => {
+            if (err.status === 404) {
+              this.router.navigate(['/not-found']);
+            }
+            return of(undefined);
+          }),
+          shareReplay(1)
+        );
       },
       error: (err) => {
         console.error(err.error.message);
@@ -215,6 +262,7 @@ export class ManageEventComponent {
           this.eventService.joinEvent(this.eventId, user.id).subscribe({
             next: () => {
               alert('Vous avez rejoint l\'événement avec succès');
+              // Reload page to show participant view
               location.reload();
             },
             error: (error) => {

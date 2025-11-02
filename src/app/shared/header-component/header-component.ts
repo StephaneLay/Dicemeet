@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   router = inject(Router);
 
   isAuthenticated$ = this.authService.isLoggedIn$();
+  mobileMenuOpen = false;
   
   ngOnInit() {
     this.authService.checkAuthStatus();
@@ -23,7 +24,16 @@ export class HeaderComponent implements OnInit {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.authService.checkAuthStatus();
+        this.closeMobileMenu();
       });
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen = false;
   }
 
   logout() {

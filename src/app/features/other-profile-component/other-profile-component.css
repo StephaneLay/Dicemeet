@@ -44,6 +44,36 @@ h1 {
   margin: 0;
 }
 
+.message-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+.message-section button {
+  background-color: var(--primary-purple);
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.message-section form {
+  width: 100%;
+  max-width: 600px;
+}
+
+.message-section form button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
 button {
   background-color: var(--primary-purple);
   color: white;
@@ -146,22 +176,61 @@ form button {
   max-width: 800px;
 }
 
+.favorites-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.favorites-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 #favorites h2 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #000;
-  margin: 2rem 0 1rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid var(--primary-yellow);
 }
 
-.games-list {
+.games-list,
+.places-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   margin: 1.5rem 0;
 }
 
-/* Responsive */
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+  .top-section,
+  #bio,
+  form,
+  #infos,
+  #favorites {
+    max-width: 750px;
+  }
+  
+  #infos {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+/* Responsive - Mobile */
 @media (max-width: 768px) {
+  .top-section,
+  #bio,
+  form,
+  #infos,
+  #favorites {
+    margin: 1rem 5%;
+    max-width: 100%;
+  }
+  
   .top-section {
     padding: 1.5rem;
   }
@@ -177,5 +246,54 @@ form button {
   
   #infos {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .games-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+}
+
+/* Responsive - Small Mobile */
+@media (max-width: 480px) {
+  .top-section,
+  #bio,
+  form {
+    padding: 1.25rem;
+    margin: 1rem 5%;
+  }
+  
+  .message-section {
+    margin: 1.5rem 5%;
+  }
+  
+  img {
+    width: 8rem;
+    height: 8rem;
+  }
+  
+  h1 {
+    font-size: 1.25rem;
+  }
+  
+  .games-list,
+  .places-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .favorites-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  form textarea {
+    min-height: 100px;
+    padding: 0.75rem;
+  }
+  
+  form button {
+    width: 100%;
+    margin: 0.5rem 0;
   }
 }

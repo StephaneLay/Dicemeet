@@ -64,11 +64,31 @@
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
-/* Responsive */
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+  .meetup-card {
+    padding: 1.25rem;
+  }
+  
+  .info h2 {
+    font-size: 1.35rem;
+  }
+}
+
+/* Responsive - Mobile */
 @media (max-width: 768px) {
   .meetup-card {
     flex-direction: column;
     gap: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .info h2 {
+    font-size: 1.25rem;
+  }
+  
+  .info p {
+    font-size: 0.9rem;
   }
   
   .actions {
@@ -77,5 +97,27 @@
   
   .actions a {
     width: 100%;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Responsive - Small Mobile */
+@media (max-width: 480px) {
+  .meetup-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .info h2 {
+    font-size: 1.1rem;
+  }
+  
+  .info p {
+    font-size: 0.85rem;
+  }
+  
+  .actions a {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
   }
 }

@@ -9,14 +9,16 @@
     </div>
 </section>
 
-@if (isEditingMessage) {
-    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
-        <textarea formControlName="content" placeholder="Message"></textarea>
-        <button type="submit" [disabled]="messageForm.pristine">Envoyer</button>
-    </form>
-} @else {
-    <button (click)="editMessage()">Envoyer un message</button>
-}
+<div class="message-section">
+    @if (isEditingMessage) {
+        <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+            <textarea formControlName="content" placeholder="Message"></textarea>
+            <button type="submit" [disabled]="messageForm.pristine">Envoyer</button>
+        </form>
+    } @else {
+        <button (click)="editMessage()">Envoyer un message</button>
+    }
+</div>
 
 <p id="bio">{{ user?.bio }}</p>
 
@@ -32,15 +34,22 @@
 </div>
 
 <div id="favorites">
-    <h2>Jeux favoris</h2>
-    <div class="games-list">
-        @for (game of user?.favoritesGames; track $index) {
-        <app-game-card [game]="game"></app-game-card>
-        }
+    <section class="favorites-section">
+        <h2>Jeux favoris</h2>
+        <div class="games-list">
+            @for (game of user?.favoritesGames; track $index) {
+            <app-game-card [game]="game"></app-game-card>
+            }
+        </div>
+    </section>
+    
+    <section class="favorites-section">
         <h2>Endroits favoris</h2>
-        @for (place of user?.favoritesPlaces; track $index) {
-        <app-place-card [place]="place"></app-place-card>
-        }
-    </div>
+        <div class="places-list">
+            @for (place of user?.favoritesPlaces; track $index) {
+            <app-place-card [place]="place"></app-place-card>
+            }
+        </div>
+    </section>
 </div>
 }

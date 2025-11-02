@@ -1,13 +1,30 @@
-<h1>Événement n° {{ (currentEvent$| async )?.id }}</h1>
-
-@if(canJoin$ | async) {
-  <button (click)="joinEvent()">Rejoindre l'événement</button>  
-} @else if ((isParticipant$ | async) === false) {
-  <p>Cet événement est complet</p>
-  <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
-  <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
-  <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
+@if (isLoading$ | async) {
+  <div class="loading-container">
+    <p>Chargement...</p>
+  </div>
 } @else {
+  <h1>Événement n° {{ (currentEvent$| async )?.id }}</h1>
+
+  @switch (userState$ | async) {
+    @case ('canJoin') {
+      <div class="event-info">
+        <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
+        <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
+        <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
+        <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
+      </div>
+      <button (click)="joinEvent()">Rejoindre l'événement</button>
+    }
+    @case ('isFull') {
+      <p>Cet événement est complet</p>
+      <div class="event-info">
+        <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
+        <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
+        <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
+        <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
+      </div>
+    }
+    @case ('isParticipant') {
   <div class="event-info">
     <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
     <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
@@ -65,5 +82,7 @@
     }
   </div>
   
-  <app-chat-box [messages$]="eventMessages$" (sendMessageEvent)="postMessage($event)"></app-chat-box>
+      <app-chat-box [messages$]="eventMessages$" (sendMessageEvent)="postMessage($event)"></app-chat-box>
+    }
+  }
 }

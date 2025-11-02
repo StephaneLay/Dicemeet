@@ -87,3 +87,43 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chat-container {
+    height: 400px;
+  }
+  
+  .chat-input {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .chat-input input {
+    width: 100%;
+  }
+  
+  .chat-input button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-container {
+    height: 350px;
+    border-radius: 12px;
+  }
+  
+  .chat-messages {
+    padding: 0.75rem;
+  }
+  
+  .chat-message {
+    padding: 0.75rem;
+  }
+  
+  .chat-input {
+    padding: 0.75rem;
+  }
+}

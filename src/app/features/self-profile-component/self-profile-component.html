@@ -58,14 +58,21 @@
 </form>
 
 <div id="favorites">
-  <h2>Jeux favoris</h2>
-  <div class="games-list">
-    @for (game of user?.favoritesGames; track $index) {
-    <app-game-card [game]="game"></app-game-card>
-    }
+  <section class="favorites-section">
+    <h2>Jeux favoris</h2>
+    <div class="games-list">
+      @for (game of user?.favoritesGames; track $index) {
+      <app-game-card [game]="game"></app-game-card>
+      }
+    </div>
+  </section>
+  
+  <section class="favorites-section">
     <h2>Endroits favoris</h2>
-    @for (place of user?.favoritesPlaces; track $index) {
-    <app-place-card [place]="place"></app-place-card>
-    }
-  </div>
+    <div class="places-list">
+      @for (place of user?.favoritesPlaces; track $index) {
+      <app-place-card [place]="place"></app-place-card>
+      }
+    </div>
+  </section>
 </div>

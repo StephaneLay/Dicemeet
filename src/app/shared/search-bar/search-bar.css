@@ -70,3 +70,45 @@
   font-weight: 600;
   text-transform: capitalize;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .search-input {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .suggestions {
+    max-height: 250px;
+  }
+  
+  .suggestions li {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+  
+  .suggestions {
+    max-height: 200px;
+  }
+  
+  .suggestions li {
+    padding: 0.625rem;
+    font-size: 0.85rem;
+  }
+  
+  .label {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
+}

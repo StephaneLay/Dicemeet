@@ -16,22 +16,22 @@
                 <img src="assets/gamecard1.jpg" alt="">
                 <h4>Catan</h4>
                 <p>Lyon · Samedi 20h · 4 joueurs</p>
-                <a href="#" class=" cta primary ">Rejoindre la partie</a>
+                <a routerLink="/login" class=" cta primary ">Rejoindre la partie</a>
             </div>
             <div class="gamecard">
                 <img src="assets/gamecard2.jpg" alt="">
                 <h4>Risk</h4>
                 <p>Paris · Vendredi 18h · 6 joueurs</p>
-                <a href="#" class=" cta primary ">Rejoindre la partie</a>
+                <a routerLink="/login" class=" cta primary ">Rejoindre la partie</a>
             </div>
             <div class="gamecard">
                 <img src="assets/gamecard3.jpg" alt="">
                 <h4>7 Wonders</h4>
                 <p>Lille · Dimanche 15h · 5 joueurs</p>
-                <a href="#" class=" cta primary ">Rejoindre la partie</a>
+                <a routerLink="/login" class=" cta primary ">Rejoindre la partie</a>
             </div>
         </div>
-        <a href="#" class=" cta secondary ">Voir toutes les parties</a>
+        <a routerLink="/login" class=" cta secondary ">Voir toutes les parties</a>
 
     </div>
 </section>
@@ -39,7 +39,7 @@
 <section class="cta-organiser">
     <div class="container">
         <h3>Ou pourquoi ne pas organiser votre propre partie ?</h3>
-        <a href="#" class="cta secondary">Organiser une partie</a>
+        <a routerLink="/login" class="cta secondary">Organiser une partie</a>
     </div>
 </section>
 
@@ -56,75 +56,105 @@
 </section>
 
 <section class="benefits">
-    <p>Rencontrez d'autres joueurs</p>
-    <p>Découvrez de nouveaux jeux</p>
-    <p>Trouvez les bars à jeux près de chez vous</p>
+    <div class="container">
+        <h3>Pourquoi choisir DiceMeet ?</h3>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h4>Rencontrez d'autres joueurs</h4>
+                <p>Rejoignez une communauté active de passionnés de jeux de société près de chez vous.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <path d="M9 9h6v6H9z"></path>
+                    </svg>
+                </div>
+                <h4>Découvrez de nouveaux jeux</h4>
+                <p>Explorez une vaste collection de jeux et découvrez vos nouveaux favoris avec d'autres joueurs.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                </div>
+                <h4>Trouvez les bars à jeux</h4>
+                <p>Localisez facilement les meilleurs endroits pour jouer dans votre région.</p>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section class="my-8 dark:bg-gray-100 dark:text-gray-800">
-	<div class="container flex flex-col items-center mx-auto mb-12 md:p-10 md:px-12">
-		<h1 class="p-4 text-4xl font-semibold leading-none text-center">What our customers are saying about us</h1>
-	</div>
-	<div class="container flex flex-col items-center justify-center mx-auto lg:flex-row lg:flex-wrap lg:justify-evenly lg:px-10">
-		<div class="flex flex-col max-w-sm mx-4 my-6 shadow-lg">
-			<div class="px-4 py-12 rounded-t-lg sm:px-8 md:px-12 dark:bg-gray-50">
-				<p class="relative px-6 py-1 text-lg italic text-center dark:text-gray-800">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="w-8 h-8 dark:text-violet-600">
-						<path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
-						<path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
-					</svg>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus quibusdam, eligendi exercitationem molestias possimus facere.
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="absolute right-0 w-8 h-8 dark:text-violet-600">
-						<path d="M280,185.143V416H496V16H457.6ZM464,384H312V198.857L464,54.1Z"></path>
-						<path d="M232,16H193.6L16,185.143V416H232ZM200,384H48V198.857L200,54.1Z"></path>
-					</svg>
-				</p>
-			</div>
-			<div class="flex flex-col items-center justify-center p-8 rounded-b-lg dark:bg-violet-600 dark:text-gray-50">
-				<img src="https://source.unsplash.com/50x50/?portrait?1" alt="" class="w-16 h-16 mb-2 -mt-16 bg-center bg-cover rounded-full dark:bg-gray-500 dark:bg-gray-300">
-				<p class="text-xl font-semibold leading-tight">Distinctio Animi</p>
-				<p class="text-sm uppercase">Aliquam illum</p>
-			</div>
-		</div>
-		<div class="flex flex-col max-w-sm mx-4 my-6 shadow-lg">
-			<div class="px-4 py-12 rounded-t-lg sm:px-8 md:px-12 dark:bg-gray-50">
-				<p class="relative px-6 py-1 text-lg italic text-center dark:text-gray-800">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="w-8 h-8 dark:text-violet-600">
-						<path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
-						<path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
-					</svg>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus quibusdam, eligendi exercitationem molestias possimus facere.
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="absolute right-0 w-8 h-8 dark:text-violet-600">
-						<path d="M280,185.143V416H496V16H457.6ZM464,384H312V198.857L464,54.1Z"></path>
-						<path d="M232,16H193.6L16,185.143V416H232ZM200,384H48V198.857L200,54.1Z"></path>
-					</svg>
-				</p>
-			</div>
-			<div class="flex flex-col items-center justify-center p-8 rounded-b-lg dark:bg-violet-600 dark:text-gray-50">
-				<img src="https://source.unsplash.com/50x50/?portrait?2" alt="" class="w-16 h-16 mb-2 -mt-16 bg-center bg-cover rounded-full dark:bg-gray-500 dark:bg-gray-300">
-				<p class="text-xl font-semibold leading-tight">Distinctio Animi</p>
-				<p class="text-sm uppercase">Aliquam illum</p>
-			</div>
-		</div>
-		<div class="flex flex-col max-w-sm mx-4 my-6 shadow-lg">
-			<div class="px-4 py-12 rounded-t-lg sm:px-8 md:px-12 dark:bg-gray-50">
-				<p class="relative px-6 py-1 text-lg italic text-center dark:text-gray-800">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="w-8 h-8 dark:text-violet-600">
-						<path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
-						<path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
-					</svg>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus quibusdam, eligendi exercitationem molestias possimus facere.
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="absolute right-0 w-8 h-8 dark:text-violet-600">
-						<path d="M280,185.143V416H496V16H457.6ZM464,384H312V198.857L464,54.1Z"></path>
-						<path d="M232,16H193.6L16,185.143V416H232ZM200,384H48V198.857L200,54.1Z"></path>
-					</svg>
-				</p>
-			</div>
-			<div class="flex flex-col items-center justify-center p-8 rounded-b-lg dark:bg-violet-600 dark:text-gray-50">
-				<img src="https://source.unsplash.com/50x50/?portrait?3" alt="" class="w-16 h-16 mb-2 -mt-16 bg-center bg-cover rounded-full dark:bg-gray-500 dark:bg-gray-300">
-				<p class="text-xl font-semibold leading-tight">Distinctio Animi</p>
-				<p class="text-sm uppercase">Aliquam illum</p>
-			</div>
-		</div>
-		
-	</div>
+<section class="testimonials">
+    <div class="container">
+        <h3>Ce que disent nos membres</h3>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
+                        <path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
+                    </svg>
+                    <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://source.unsplash.com/50x50/?portrait?1" alt="Avatar">
+                    </div>
+                    <div class="author-info">
+                        <p class="author-name">Distinctio Animi</p>
+                        <p class="author-title">Membre depuis 2023</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
+                        <path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
+                    </svg>
+                    <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://source.unsplash.com/50x50/?portrait?2" alt="Avatar">
+                    </div>
+                    <div class="author-info">
+                        <p class="author-name">Aliquam Illum</p>
+                        <p class="author-title">Organisateur de parties</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M232,246.857V16H16V416H54.4ZM48,48H200V233.143L48,377.905Z"></path>
+                        <path d="M280,416h38.4L496,246.857V16H280ZM312,48H464V233.143L312,377.905Z"></path>
+                    </svg>
+                    <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://source.unsplash.com/50x50/?portrait?3" alt="Avatar">
+                    </div>
+                    <div class="author-info">
+                        <p class="author-name">Voluptatem Accus</p>
+                        <p class="author-title">Joueur passionné</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 
