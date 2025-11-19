@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EventService } from '../../core/services/EventService/event-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, catchError } from 'rxjs';
@@ -8,6 +8,7 @@ import { Message } from '../../shared/models/message-model';
 import { UserService } from '../../core/services/UserService/user-service';
 import { ChatBox } from '../../shared/chat-box/chat-box';
 import { MessageService } from '../../core/services/MessageService/message-service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Filter } from '../../shared/models/filter-model';
