@@ -9,7 +9,6 @@ import { UserService } from '../../core/services/UserService/user-service';
 import { ChatBox } from '../../shared/chat-box/chat-box';
 import { MessageService } from '../../core/services/MessageService/message-service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Filter } from '../../shared/models/filter-model';
 import { PlaceService } from '../../core/services/PlaceService/place-service';
@@ -21,7 +20,7 @@ import { Meetup } from '../../shared/models/meetup-model';
   templateUrl: './manage-event-component.html',
   styleUrl: './manage-event-component.css'
 })
-export class ManageEventComponent implements OnInit {
+export class ManageEventComponent  {
   eventService = inject(EventService);
   userService = inject(UserService);
   messageService = inject(MessageService);
