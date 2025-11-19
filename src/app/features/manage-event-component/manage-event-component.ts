@@ -1,18 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '../../core/services/EventService/event-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, combineLatest, of, catchError, shareReplay, tap } from 'rxjs';
-import { Meetup } from '../../shared/models/meetup-model';
+import { Observable, of, catchError } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { User } from '../../shared/models/user-model';
 import { Message } from '../../shared/models/message-model';
 import { UserService } from '../../core/services/UserService/user-service';
 import { ChatBox } from '../../shared/chat-box/chat-box';
 import { MessageService } from '../../core/services/MessageService/message-service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Filter } from '../../shared/models/filter-model';
 import { PlaceService } from '../../core/services/PlaceService/place-service';
+import { Meetup } from '../../shared/models/meetup-model';
 
 @Component({
   selector: 'app-manage-event-component',
@@ -21,160 +21,94 @@ import { PlaceService } from '../../core/services/PlaceService/place-service';
   styleUrl: './manage-event-component.css'
 })
 export class ManageEventComponent implements OnInit {
-  eventService = inject(EventService)
-  userService = inject(UserService)
-  messageService = inject(MessageService)
-  placeService = inject(PlaceService)
-  route = inject(ActivatedRoute)
-  router = inject(Router)
+  eventService = inject(EventService);
+  userService = inject(UserService);
+  messageService = inject(MessageService);
+  placeService = inject(PlaceService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   eventId: number = Number(this.route.snapshot.paramMap.get('id'));
 
+  // Form for editing event
   eventForm = new FormGroup({
     place: new FormControl(''),
     city: new FormControl(''),
     date: new FormControl(''),
-  })
+  });
 
-  isedited = false;
+  // UI state
   editMode = false;
-  onEdit() {
+  hasFormChanges = false;
+
+  // Observables - simple and straightforward
+  currentEvent$!: Observable<Meetup | undefined>;
+  currentUser$!: Observable<User>;
+  eventUsers$!: Observable<User[]>;
+  eventMessages$!: Observable<Message[]>;
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  // Load all data for the event
+  loadData() {
+    this.currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
+      catchError(err => {
+        if (err.status === 404) {
+          this.router.navigate(['/not-found']);
+        }
+        return of(undefined);
+      })
+    );
+
+    this.currentUser$ = this.userService.getCurrentUser();
+    this.eventUsers$ = this.eventService.getEventUsers(this.eventId);
+    this.eventMessages$ = this.eventService.getEventMessages(this.eventId).pipe(
+      catchError(() => of([]))
+    );
+  }
+
+  // Check if current user is the owner
+  isOwner(event: Meetup | undefined, user: User | undefined): boolean {
+    if (!event || !user) return false;
+    return event.ownerId === user.id;
+  }
+
+  // Check if current user is a participant
+  isParticipant(users: User[] | undefined, user: User | undefined): boolean {
+    if (!users || !user) return false;
+    return users.some(u => u.id === user.id);
+  }
+
+  // Check if event is full
+  isEventFull(event: Meetup | undefined): boolean {
+    if (!event) return false;
+    return event.participants >= event.maxParticipants;
+  }
+
+  // Determine what action user can take
+  getUserAction(event: Meetup | undefined, users: User[] | undefined, user: User | undefined): 'loading' | 'canJoin' | 'isParticipant' | 'isFull' {
+    if (!event || !user || !users) return 'loading';
+    if (this.isParticipant(users, user)) return 'isParticipant';
+    if (this.isEventFull(event)) return 'isFull';
+    return 'canJoin';
+  }
+
+
+  // UI methods
+  startEdit() {
     this.editMode = true;
   }
 
-  // Share observables to avoid multiple subscriptions
-  currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
-    catchError(err => {
-      if (err.status === 404) {
-        this.router.navigate(['/not-found']);
-      }
-      return of(undefined);
-    }),
-    shareReplay(1)
-  )
-
-  currentUser$: Observable<User> = this.userService.getCurrentUser().pipe(
-    shareReplay(1)
-  )
-
-  eventUsers$: Observable<User[]> = this.eventService.getEventUsers(this.eventId).pipe(
-    shareReplay(1)
-  )
-
-  eventMessages$: Observable<Message[]> = this.eventService.getEventMessages(this.eventId).pipe(
-    catchError(() => of([])),
-    shareReplay(1)
-  )
-
-  // Combined loading state - all data must be loaded
-  isLoading$ = combineLatest([
-    this.currentEvent$,
-    this.currentUser$,
-    this.eventUsers$
-  ]).pipe(
-    map(([event, user, users]) => {
-      return !event || !user || !users;
-    })
-  )
-
-  // Check if current user is the owner
-  isOwner$: Observable<boolean> = combineLatest([
-    this.currentEvent$,
-    this.currentUser$
-  ]).pipe(
-    map(([event, user]) => {
-      if (!event || !user) return false;
-      return event.ownerId === user.id;
-    }),
-    shareReplay(1)
-  )
-
-  isParticipant$: Observable<boolean> = combineLatest([
-    this.eventUsers$,
-    this.currentUser$
-  ]).pipe(
-    map(([users, user]) => {
-      if (!users || !user) return false;
-      return users.some(u => u.id === user.id);
-    }),
-    shareReplay(1)
-  )
-
-  // User state: 'loading' | 'canJoin' | 'isParticipant' | 'isFull'
-  userState$: Observable<'loading' | 'canJoin' | 'isParticipant' | 'isFull'> = combineLatest([
-    this.isParticipant$,
-    this.currentEvent$,
-    this.isLoading$
-  ]).pipe(
-    map(([isParticipant, event, isLoading]) => {
-      if (isLoading || !event) return 'loading';
-      if (isParticipant) return 'isParticipant';
-      if (event.participants >= event.maxParticipants) return 'isFull';
-      return 'canJoin';
-    }),
-    shareReplay(1)
-  )
-
-  ngOnInit() {
-    // Data is loaded automatically through observables
-    // No need for async ngOnInit
+  cancelEdit() {
+    this.editMode = false;
+    this.hasFormChanges = false;
+    this.eventForm.reset();
   }
 
-
-  // Owner management methods
-  kickUser(userId: number) {
-    if (confirm('Êtes-vous sûr de vouloir exclure cet utilisateur de l\'événement ?')) {
-      this.eventService.kickUserFromEvent(this.eventId, userId).subscribe({
-        next: () => {
-          alert('Utilisateur exclu avec succès')
-          // Refresh data instead of full page reload
-          this.eventUsers$ = this.eventService.getEventUsers(this.eventId).pipe(shareReplay(1));
-          this.currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
-            catchError(err => {
-              if (err.status === 404) {
-                this.router.navigate(['/not-found']);
-              }
-              return of(undefined);
-            }),
-            shareReplay(1)
-          );
-        },
-        error: (error) => {
-          console.error('Erreur lors de l\'exclusion de l\'utilisateur:', error)
-          alert('Erreur lors de l\'exclusion de l\'utilisateur')
-        }
-      })
-    }
-  }
-
-  cancelEvent() {
-    if (confirm('Êtes-vous sûr de vouloir annuler cet événement ? Cette action est irréversible.')) {
-      this.eventService.deleteEvent(this.eventId).subscribe({
-        next: () => {
-          alert('Événement annulé avec succès')
-          this.router.navigate(['/dashboard'])
-        },
-        error: (error) => {
-          console.error('Erreur lors de l\'annulation de l\'événement:', error)
-          alert('Erreur lors de l\'annulation de l\'événement')
-        }
-      })
-    }
-  }
-
-  postMessage(content: string) {
-    this.messageService.postChatMessage(this.eventId, content).subscribe({
-      next: () => {
-        // Refresh messages
-        this.eventMessages$ = this.eventService.getEventMessages(this.eventId).pipe(
-          catchError(() => of([])),
-          shareReplay(1)
-        )
-      }
-    })
-  }
-
-  onUpdate() {
+  // Event management methods
+  updateEvent() {
     const updateData: { date?: string; place?: string; city?: string } = {};
 
     if (this.eventForm.get('date')?.value) {
@@ -185,92 +119,104 @@ export class ManageEventComponent implements OnInit {
       updateData.city = this.eventForm.get('city')?.value ?? '';
     }
 
-    // Check if at least one field has been modified
     if (Object.keys(updateData).length === 0) {
       alert('Veuillez remplir au moins un champ');
       return;
     }
 
     this.eventService.updateEvent(this.eventId, updateData).subscribe({
-      next: (event) => {
+      next: () => {
         alert('Événement modifié avec succès');
-        this.eventForm.reset();
-        this.isedited = false;
-        this.editMode = false;
-        // Refresh the event data
-        this.currentEvent$ = this.eventService.getEventById(this.eventId).pipe(
-          catchError(err => {
-            if (err.status === 404) {
-              this.router.navigate(['/not-found']);
-            }
-            return of(undefined);
-          }),
-          shareReplay(1)
-        );
+        this.cancelEdit();
+        this.loadData();
       },
-      error: (err) => {
-        console.error(err.error.message);
+      error: () => {
         alert('Erreur lors de la modification de l\'événement');
       }
     });
   }
 
-  addfilter(filter: Filter) {
+  cancelEvent() {
+    if (confirm('Êtes-vous sûr de vouloir annuler cet événement ? Cette action est irréversible.')) {
+      this.eventService.deleteEvent(this.eventId).subscribe({
+        next: () => {
+          alert('Événement annulé avec succès');
+          this.router.navigate(['/dashboard']);
+        },
+        error: () => {
+          alert('Erreur lors de l\'annulation de l\'événement');
+        }
+      });
+    }
+  }
+
+  // Participant management
+  joinEvent(userId: number) {
+    if (confirm('Êtes-vous sûr de vouloir rejoindre cet événement ?')) {
+      this.eventService.joinEvent(this.eventId, userId).subscribe({
+        next: () => {
+          alert('Vous avez rejoint l\'événement avec succès');
+          this.loadData();
+        },
+        error: () => {
+          alert('Erreur lors de l\'inscription à l\'événement');
+        }
+      });
+    }
+  }
+
+  leaveEvent(userId: number) {
+    if (confirm('Êtes-vous sûr de vouloir quitter cet événement ?')) {
+      this.eventService.kickUserFromEvent(this.eventId, userId).subscribe({
+        next: () => {
+          alert('Vous avez quitté l\'événement avec succès');
+          this.router.navigate(['/dashboard']);
+        },
+        error: () => {
+          alert('Erreur lors de la désinscription');
+        }
+      });
+    }
+  }
+
+  kickUser(userId: number) {
+    if (confirm('Êtes-vous sûr de vouloir exclure cet utilisateur de l\'événement ?')) {
+      this.eventService.kickUserFromEvent(this.eventId, userId).subscribe({
+        next: () => {
+          alert('Utilisateur exclu avec succès');
+          this.loadData();
+        },
+        error: () => {
+          alert('Erreur lors de l\'exclusion de l\'utilisateur');
+        }
+      });
+    }
+  }
+
+  // Chat methods
+  postMessage(content: string) {
+    this.messageService.postChatMessage(this.eventId, content).subscribe({
+      next: () => {
+        this.eventMessages$ = this.eventService.getEventMessages(this.eventId).pipe(
+          catchError(() => of([]))
+        );
+      }
+    });
+  }
+
+  // Form handling
+  onPlaceFilterSelected(filter: Filter) {
     if (filter.type === 'lieu') {
-      this.isedited = true;
+      this.hasFormChanges = true;
       this.eventForm.get('place')?.setValue(filter.name);
       this.placeService.getPlaceById(filter.id).subscribe({
         next: (place) => {
           this.eventForm.get('city')?.setValue(place.cityName);
         },
-        error: (err) => {
-          console.error(err.error.message);
+        error: () => {
+          alert('Erreur lors de la récupération du lieu');
         }
-      })
-    }
-  }
-
-  clearEdited() {
-    this.isedited = false;
-    this.eventForm.reset();
-  }
-
- 
-
-  leaveEvent() {
-    if (confirm('Êtes-vous sûr de vouloir quitter cet événement ?')) {
-      this.currentUser$.subscribe({
-        next: (user) => {
-          this.eventService.kickUserFromEvent(this.eventId, user.id).subscribe({
-            next: () => {
-              alert('Vous avez quitté l\'événement avec succès');
-              this.router.navigate(['/dashboard']);
-            },
-            error: (error) => {
-              alert('Erreur lors de la désinscription');
-            }
-          })
-        }
-      })
-    }
-  }
-
-  joinEvent() {
-    if (confirm('Êtes-vous sûr de vouloir rejoindre cet événement ?')) {
-      this.currentUser$.subscribe({
-        next: (user) => {
-          this.eventService.joinEvent(this.eventId, user.id).subscribe({
-            next: () => {
-              alert('Vous avez rejoint l\'événement avec succès');
-              // Reload page to show participant view
-              location.reload();
-            },
-            error: (error) => {
-              alert('Erreur lors de l\'inscription à l\'événement');
-            }
-          })
-        }
-      })
+      });
     }
   }
 }

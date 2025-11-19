@@ -1,88 +1,94 @@
-@if (isLoading$ | async) {
-  <div class="loading-container">
-    <p>Chargement...</p>
-  </div>
-} @else {
-  <h1>Événement n° {{ (currentEvent$| async )?.id }}</h1>
+@if (currentEvent$ | async; as event) {
+  @if (currentUser$ | async; as user) {
+    @if (eventUsers$ | async; as users) {
+      <h1>Événement n° {{ event.id }}</h1>
 
-  @switch (userState$ | async) {
-    @case ('canJoin') {
+      <!-- Event Information -->
       <div class="event-info">
-        <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
-        <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
-        <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
-        <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
+        <p><strong>Game :</strong> {{ event.game }}</p>
+        <p><strong>Date :</strong> {{ event.date | date:'short' }}</p>
+        <p><strong>Lieu :</strong> {{ event.place }} ({{ event.city }})</p>
+        <p><strong>Participants :</strong> {{ event.participants }} / {{ event.maxParticipants }}</p>
       </div>
-      <button (click)="joinEvent()">Rejoindre l'événement</button>
-    }
-    @case ('isFull') {
-      <p>Cet événement est complet</p>
-      <div class="event-info">
-        <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
-        <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
-        <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
-        <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
-      </div>
-    }
-    @case ('isParticipant') {
-  <div class="event-info">
-    <p><strong>Game :</strong> {{ (currentEvent$| async )?.game }}</p>
-    <p><strong>Date :</strong> {{ (currentEvent$| async )?.date | date:'short' }}</p>
-    <p><strong>Lieu :</strong> {{ (currentEvent$| async )?.place }} ({{ (currentEvent$| async )?.city }})</p>
-    <p><strong>Participants :</strong> {{ (currentEvent$| async )?.participants }} / {{ (currentEvent$| async )?.maxParticipants }}</p>
-  </div>
-  
-  @if (isOwner$ | async) {
-    <div class="owner-controls">
-      <button (click)="onEdit()">Modifier l'événement</button>
-      <button (click)="cancelEvent()">Annuler l'événement</button>
-      
-      @if(editMode) {
-        <form [formGroup]="eventForm" (ngSubmit)="onUpdate()">
-          
-          @if(eventForm.get('place')?.value) {
-              <p>Lieu : {{ eventForm.get('place')?.value }}</p>
-              <p>Ville : {{ eventForm.get('city')?.value }}</p>
-          }@else {
-            Choix du nouveau lieu :
-            <app-search-bar [searchType]="'places'" (filtersChanged)="addfilter($event)"></app-search-bar>
-          }
-    
-          Choix date et heure :
-          @if(eventForm.get('date')?.value) {
-              <p>Date et heure : {{ eventForm.get('date')?.value }}</p>
-          }@else {
-              <input type="datetime-local" formControlName="date" [value]="eventForm.get('date')?.value">
-          }
-    
-          @if(isedited) {
-              <button type="button" (click)="clearEdited()">Effacer les modifications</button>
-          }
-          <button type="submit">Mettre à jour l'événement</button>
-        </form>
-      }
-    </div>
-  } @else {
-    <button (click)="leaveEvent()">Se désinscrire</button>
-  }
 
-  <div class="participants-container">
-    <h2>Participants</h2>
-    @for (user of (eventUsers$| async ); track $index) {
-      <div class="participant-item">
-        @if (user.id !== (currentEvent$| async )?.ownerId) {
-          <p>{{ user.name }}</p>
-          @if (isOwner$ | async) {
-            <button (click)="kickUser(user.id)">Exclure</button>
-          }
-        } @else {
-          <p><strong>{{ user.name }} (Organisateur)</strong></p>
+      <!-- User Actions Based on State -->
+      @switch (getUserAction(event, users, user)) {
+        @case ('canJoin') {
+          <button (click)="joinEvent(user.id)">Rejoindre l'événement</button>
         }
+        @case ('isFull') {
+          <p>Cet événement est complet</p>
+        }
+        @case ('isParticipant') {
+          <!-- Owner Controls -->
+          @if (isOwner(event, user)) {
+            <div class="owner-controls">
+              <button (click)="startEdit()">Modifier l'événement</button>
+              <button (click)="cancelEvent()">Annuler l'événement</button>
+              
+              @if (editMode) {
+                <form [formGroup]="eventForm" (ngSubmit)="updateEvent()">
+                  <!-- Place Selection -->
+                  @if (eventForm.get('place')?.value) {
+                    <p>Lieu : {{ eventForm.get('place')?.value }}</p>
+                    <p>Ville : {{ eventForm.get('city')?.value }}</p>
+                  } @else {
+                    <label>Choix du nouveau lieu :</label>
+                    <app-search-bar [searchType]="'places'" (filtersChanged)="onPlaceFilterSelected($event)"></app-search-bar>
+                  }
+          
+                  <!-- Date Selection -->
+                  <label>Choix date et heure :</label>
+                  @if (eventForm.get('date')?.value) {
+                    <p>Date et heure : {{ eventForm.get('date')?.value }}</p>
+                  } @else {
+                    <input type="datetime-local" formControlName="date">
+                  }
+          
+                  @if (hasFormChanges) {
+                    <button type="button" (click)="cancelEdit()">Effacer les modifications</button>
+                  }
+                  <button type="submit">Mettre à jour l'événement</button>
+                </form>
+              }
+            </div>
+          } @else {
+            <button (click)="leaveEvent(user.id)">Se désinscrire</button>
+          }
+
+          <!-- Participants List -->
+          <div class="participants-container">
+            <h2>Participants</h2>
+            @for (participant of users; track participant.id) {
+              <div class="participant-item">
+                @if (participant.id === event.ownerId) {
+                  <p><strong>{{ participant.name }} (Organisateur)</strong></p>
+                } @else {
+                  <p>{{ participant.name }}</p>
+                  @if (isOwner(event, user)) {
+                    <button (click)="kickUser(participant.id)">Exclure</button>
+                  }
+                }
+              </div>
+            }
+          </div>
+          
+          <!-- Chat Box -->
+          <app-chat-box [messages$]="eventMessages$" (sendMessageEvent)="postMessage($event)"></app-chat-box>
+        }
+      }
+    } @else {
+      <div class="loading-container">
+        <p>Chargement des participants...</p>
       </div>
     }
-  </div>
-  
-      <app-chat-box [messages$]="eventMessages$" (sendMessageEvent)="postMessage($event)"></app-chat-box>
-    }
+  } @else {
+    <div class="loading-container">
+      <p>Chargement de l'utilisateur...</p>
+    </div>
   }
+} @else {
+  <div class="loading-container">
+    <p>Chargement de l'événement...</p>
+  </div>
 }
