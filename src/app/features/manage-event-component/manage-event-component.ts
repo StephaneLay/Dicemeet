@@ -1,15 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EventService } from '../../core/services/EventService/event-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, combineLatest, of, catchError, shareReplay, tap } from 'rxjs';
-import { Meetup } from '../../shared/models/meetup-model';
+import { map, Observable, combineLatest, of, catchError, shareReplay } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { User } from '../../shared/models/user-model';
 import { Message } from '../../shared/models/message-model';
 import { UserService } from '../../core/services/UserService/user-service';
 import { ChatBox } from '../../shared/chat-box/chat-box';
 import { MessageService } from '../../core/services/MessageService/message-service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Filter } from '../../shared/models/filter-model';
 import { PlaceService } from '../../core/services/PlaceService/place-service';
@@ -20,7 +19,7 @@ import { PlaceService } from '../../core/services/PlaceService/place-service';
   templateUrl: './manage-event-component.html',
   styleUrl: './manage-event-component.css'
 })
-export class ManageEventComponent implements OnInit {
+export class ManageEventComponent  {
   eventService = inject(EventService)
   userService = inject(UserService)
   messageService = inject(MessageService)
@@ -115,10 +114,7 @@ export class ManageEventComponent implements OnInit {
     shareReplay(1)
   )
 
-  ngOnInit() {
-    // Data is loaded automatically through observables
-    // No need for async ngOnInit
-  }
+  
 
 
   // Owner management methods
